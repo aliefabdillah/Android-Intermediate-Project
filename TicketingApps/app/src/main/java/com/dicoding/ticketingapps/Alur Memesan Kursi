@@ -1,0 +1,15 @@
+Alur Memesan Kursi
+Mungkin Anda bertanya-tanya, “Bagaimana alur booking dari aplikasi tiket ini?”. Tenang,
+tidak perlu khawatir, kita akan membahasnya satu persatu. Berikut ini runtutan dari alurnya.
+
+1. Membuat Data Class Seat untuk menampung informasi kursi, seperti id, nama, apakah sudah di-booking,
+posisi x, posisi y.
+2. Membuat variabel array seats yang menyimpan kumpulan informasi kursi yang ada.
+3. Menyediakan informasi umum kursi seperti id, nama, dan status booking ketika SeatView diinisialisasi.
+4. Melengkapi informasi seperti posisi x dan y melalui metode onMeasure.
+5. Menggambar kursi berdasarkan informasi kursi yang didapatkan melalui metode onDraw.
+6. Menambahkan fungsionalitas onTouch untuk setiap kursi yang tampil di layar.
+7. Jika kursi ditekan, informasi booking akan diperbarui menjadi true atau saat ini dalam keadaan terisi.
+8. Informasi booking hanya digunakan untuk satu kali saja. Jadi ketika ganti kursi lain, informasi booking
+pada kursi sebelumnya akan dihapus.
+9. Informasi kursi (seat) yang telah dibooking bisa oleh siapa saja selama data tersebut valid (non-null).

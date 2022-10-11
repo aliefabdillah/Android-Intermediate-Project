@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LikesApp</string>
+    <string name="like">Like</string>
+    <string name="dislike">Dislike</string>
+    <string name="emoji">Emoji</string>
+    <string name="question">Apakah Kamu Suka Bermain?</string>
+</resources>
