@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/app_widget_description"
+    android:initialKeyguardLayout="@layout/random_number_widget"
+    android:initialLayout="@layout/random_number_widget"
+    android:minWidth="40dp"
+    android:minHeight="40dp"
+    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewLayout="@layout/random_number_widget"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="1"
+    android:targetCellHeight="1"
+    android:updatePeriodMillis="86400000"
+    android:widgetCategory="home_screen" />
+
+    <!--
+    initialLayout : Mereferensikan widget layout yang sudah dibuat.
+    minHeight dan minWidth : Ukuran panjang dan lebar dari widget.
+    previewImage : Gambar ini akan ditampilkan pada saat kita memilih widget.
+    resizeMode : Untuk mengatur metode dalam resize widget.
+    updatePeriodMillis : Jangka waktu untuk update widget dalam millisecond. Nilai minimum yang bisa dimasukkan adalah 30 menit.
+    widgetCategory : Untuk menentukan kategori widget (homescreen, keyguard, atau searchbox).
+    targetCellWidth dan targetCellHeight : Menentukan ukuran sel awal lebar dan tinggi.
+
+    -->
