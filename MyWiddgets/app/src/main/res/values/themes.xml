@@ -27,5 +27,6 @@
     <style name="Theme.MyWiddgets.AppWidgetContainer" parent="Theme.MyWiddgets.AppWidgetContainerParent">
         <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
         <item name="appWidgetPadding">16dp</item>
+        <item name="backgroundColor">@color/light_blue_600</item>
     </style>
 </resources>
