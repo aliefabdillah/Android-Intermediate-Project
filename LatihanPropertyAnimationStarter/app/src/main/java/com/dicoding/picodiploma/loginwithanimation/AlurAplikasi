@@ -1,0 +1,20 @@
+- Ketika membuka aplikasi pertama kali, sistem akan memastikan apakah pengguna sudah login dalam
+aplikasi atau belum. Jika sudah, aplikasi akan tetap berada di halaman utama. Namun, jika belum
+pernah login, pengguna akan diarahkan ke halaman Welcome.
+
+- Di halaman Welcome pengguna dapat menekan tombol “Daftar” untuk mendaftarkan diri dalam aplikasi.
+
+- Pengguna mengisi informasi seperti nama, email, dan password. Setelah itu pengguna menekan tombol
+“Daftar” untuk mengirim data yang sudah dimasukkan.
+
+- Setelah proses registrasi berhasil, pengguna akan diarahkan kembali ke halaman Welcome.
+
+- Karena pengguna sudah memiliki akun, maka ia dapat langsung masuk ke aplikasi melalui fitur login.
+Caranya dengan menekan tombol “Masuk” yang nantinya akan memunculkan halaman Login.
+
+- Setelah halaman Login tampil, pengguna diminta untuk memasukkan email dan password. Kemudian,
+ketika tombol “Masuk” ditekan, halaman utama aplikasi akan muncul.
+
+- Katakanlah fitur untuk belajar sedang dikembangkan oleh tim Developer, oleh karena itu hanya ada
+fitur “Keluar” untuk logout atau keluar dari aplikasi. Jadi jika pengguna sudah sampai halaman home,
+alurnya telah selesai.

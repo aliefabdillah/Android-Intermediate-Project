@@ -1,0 +1,14 @@
+-Package login : Digunakan untuk menampung halaman login beserta logic-nya. Pengguna akan memasukkan
+email dan password yang nantinya akan divalidasi dengan data yang tersimpan. Jika sama, pengguna akan
+diarahkan ke halaman utama.
+
+-Package signup : Digunakan untuk menampung halaman signup (pendaftaran) beserta logic-nya, yakni
+menyimpan informasi yang dimasukkan pengguna berupa nama, email, dan password.
+
+-Package welcome : Digunakan untuk halaman onboarding. Pengguna yang belum mendaftar dapat menekan
+tombol “Daftar” untuk pergi ke fitur pendaftaran, sedangkan jika sudah memiliki akun, pengguna dapat
+menekan tombol “Masuk” untuk pergi ke ke fitur login.
+
+-Package main : Digunakan untuk halaman utama aplikasi. Di sini terdapat pengecekan status login.
+Jika pengguna belum login, mereka akan diarahkan ke halaman Welcome. Di dalam package ini juga
+terdapat fitur logout untuk keluar dari aplikasi.
