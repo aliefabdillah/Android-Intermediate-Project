@@ -1,6 +1,7 @@
 package com.dicoding.myservice
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.dicoding.myservice.databinding.ActivityMainBinding
@@ -21,6 +22,21 @@ class MainActivity : AppCompatActivity() {
         binding.btnStopBgService.setOnClickListener {
             //untuk memberhentikan service secara langsugn dari luar kelas service
             stopService(serviceIntent)
+        }
+
+        //inisialiasi intent untuk foreground service
+        val foregroundService = Intent(this, MyForegroundService::class.java)
+        binding.btnStartForegroundService.setOnClickListener {
+            //menjalankan foreground service
+            if (Build.VERSION.SDK_INT >= 26){
+                startForegroundService(foregroundService)
+            }else{
+                startService(foregroundService)
+            }
+        }
+        binding.btnStopForegroundService.setOnClickListener {
+            //memberhentikan foregroundservice
+            stopService(foregroundService)
         }
     }
 }
