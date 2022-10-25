@@ -2,6 +2,7 @@ package com.dicoding.picodiploma.mycamera
 
 import android.Manifest
 import android.content.Intent
+import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -69,8 +70,14 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Fitur ini belum tersedia", Toast.LENGTH_SHORT).show()
     }
 
+    //method ketika tombol gallery di tekan
     private fun startGallery() {
-        Toast.makeText(this, "Fitur ini belum tersedia", Toast.LENGTH_SHORT).show()
+        val intent = Intent()
+        intent.action = ACTION_GET_CONTENT
+        //menentukan tipe data data intent yaitu gambar dengan itpe data apapun
+        intent.type = "image/*"
+        Intent.createChooser(intent, "Choose a Picture")
+        launcherIntentGallery.launch(intent)
     }
 
     //method ketika camera biasa
@@ -122,6 +129,19 @@ class MainActivity : AppCompatActivity() {
             val myFile = File(currentPhotoPath)
             val imageBitmap = BitmapFactory.decodeFile(myFile.path)
             binding.previewImageView.setImageBitmap(imageBitmap)
+        }
+    }
+
+    //mengambil foto dari galeri Intent
+    private val launcherIntentGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){ result ->
+        if (result.resultCode == RESULT_OK){
+            //mendapatkan URI dari file yang dipilih
+            val selectedImg: Uri = result.data?.data as Uri
+            //mengubah uri menjadi bentuk file
+            uriToFile(selectedImg, this@MainActivity)
+            binding.previewImageView.setImageURI(selectedImg)
         }
     }
 }
