@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -15,7 +16,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.dicoding.picodiploma.mycamera.databinding.ActivityMainBinding
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Call
+import retrofit2.Response
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -64,8 +74,76 @@ class MainActivity : AppCompatActivity() {
         binding.uploadButton.setOnClickListener { uploadImage() }
     }
 
+    //mengompress file image
+    private fun reduceFileImage(file: File): File{
+        //mengubah file menjadi bitmap
+        val bitmap = BitmapFactory.decodeFile(file.path)
+        //menyiapkan nilai untuk compressQuality yang nantinya nilainya akan berkurang seiring ukuran file yang beesar
+        var compressQuality = 100
+        //variabel streamLentgh berguna untuk menampung ukuran bitmap agara sesuai yang diinginkan
+        var streamLength: Int
+
+        //perulangan untuk mengurangi nilainya sampai dibawah 1 mb
+        do {
+            val bmpStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
+            val bmpPictByteArray = bmpStream.toByteArray()
+            streamLength = bmpPictByteArray.size
+            compressQuality -= 5
+        }while (streamLength > 1000000)
+        //memasukan bitmpat ke dalam fileOuputStream setelah ukurannya kurang dari 1 mb
+        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
+
+        //return file yang telah di compress
+        return file
+    }
+
+    //fungsi upload image
     private fun uploadImage() {
-        Toast.makeText(this, "Fitur ini belum tersedia", Toast.LENGTH_SHORT).show()
+        if (getFile != null){
+            //mereduce ukuran image menjadi dibawah 1 mb(khusus dari real device)
+            val file = reduceFileImage(getFile as File)
+
+            //mengubah data menjadi requestBody
+            val description = "Ini adalah deskripsi gambar".toRequestBody("text/plain".toMediaType())
+            val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+
+            //membuat form data yang dibutuhkan oleh endPoint
+            /*
+            * terdapat 3 argument
+            - name : Sebagai kata kunci yang sesuai dengan endpoint.
+            -filename : Memberikan nama pada file yang akan dikirim.
+            -body : Melampirkan file yang sudah dibungkus dalam bentuk Request Body.
+            * */
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "photo",
+                file.name,
+                requestImageFile
+            )
+
+            //upload ke api service
+            val service = ApiConfig().getApiService().uploadImage(imageMultipart, description)
+            service.enqueue(object : retrofit2.Callback<FileUploadResponse> {
+                override fun onResponse(
+                    call: Call<FileUploadResponse>,
+                    response: Response<FileUploadResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null && !responseBody.error) {
+                            Toast.makeText(this@MainActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this@MainActivity, response.message(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+                override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Gagal instance Retrofit", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else {
+            Toast.makeText(this@MainActivity, "Silakan masukkan berkas gambar terlebih dahulu.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     //method ketika tombol gallery di tekan
@@ -103,6 +181,9 @@ class MainActivity : AppCompatActivity() {
         launcherIntentCameraX.launch(intent)
     }
 
+    //variabel global menyimpan hasil foto
+    private var getFile: File? = null
+
     //mengambil hasil capture dari cameraX menggunakan intent
     private val launcherIntentCameraX = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -110,6 +191,9 @@ class MainActivity : AppCompatActivity() {
         if (it.resultCode == CAMERA_X_RESULT){
             val myFile = it.data?.getSerializableExtra("picture") as File
             val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
+
+            //mengambil hasil gambar dan disimpan ke variabel yang telah dibuat
+            getFile = myFile
 
             //hasil gambar di rotate supaya tidak miring
             val result = rotateBitmap(BitmapFactory.decodeFile(myFile.path), isBackCamera)
@@ -127,6 +211,8 @@ class MainActivity : AppCompatActivity() {
             val myFile = File(currentPhotoPath)
             val imageBitmap = BitmapFactory.decodeFile(myFile.path)
             binding.previewImageView.setImageBitmap(imageBitmap)
+
+            getFile = myFile
         }
     }
 
@@ -138,8 +224,10 @@ class MainActivity : AppCompatActivity() {
             //mendapatkan URI dari file yang dipilih
             val selectedImg: Uri = result.data?.data as Uri
             //mengubah uri menjadi bentuk file
-            uriToFile(selectedImg, this@MainActivity)
+            val myFile = uriToFile(selectedImg, this@MainActivity)
             binding.previewImageView.setImageURI(selectedImg)
+
+            getFile = myFile
         }
     }
 }
