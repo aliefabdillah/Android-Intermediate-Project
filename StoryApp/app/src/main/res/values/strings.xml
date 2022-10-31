@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Story App</string>
+    <string name="story_app_logo">Story App Logo</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email_hint">Input your email</string>
+    <string name="password_hint">Input your password</string>
+    <string name="name_hint">Input your name</string>
+    <string name="join_us_now">Join Us Now!</string>
+    <string name="required">Required*</string>
+    <string name="email_spec">Email must be unique</string>
+    <string name="pass_spec">Password must be at least 6 characters</string>
+    <string name="email_error">Invalid Email Address</string>
+</resources>
