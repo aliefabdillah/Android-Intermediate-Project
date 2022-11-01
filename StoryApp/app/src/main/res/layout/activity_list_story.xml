@@ -6,4 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".ListStoryActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_story"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_row_story"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:foregroundGravity="bottom"
+        app:fabSize="normal"
+        app:tint="?attr/colorPrimaryVariant"
+        app:layout_anchor="@id/rv_story"
+        app:layout_anchorGravity="bottom|end"
+        android:src="@drawable/ic_baseline_add_24"
+        android:contentDescription="@string/add_story_button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
