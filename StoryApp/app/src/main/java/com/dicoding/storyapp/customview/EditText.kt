@@ -29,6 +29,11 @@ class EditText : AppCompatEditText, View.OnTouchListener {
 
     private fun init(){
         endButton = ContextCompat.getDrawable(context, R.drawable.ic_clear) as Drawable
+        startIcon = if (hint == context.getString(R.string.name_hint)){
+            ContextCompat.getDrawable(context, R.drawable.state_icon_person) as Drawable
+        }else{
+            ContextCompat.getDrawable(context, R.drawable.state_icon_email) as Drawable
+        }
 
         setOnTouchListener(this)
 
@@ -54,11 +59,6 @@ class EditText : AppCompatEditText, View.OnTouchListener {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        startIcon = if (hint == context.getString(R.string.name_hint)){
-            ContextCompat.getDrawable(context, R.drawable.state_icon_person) as Drawable
-        }else{
-            ContextCompat.getDrawable(context, R.drawable.state_icon_email) as Drawable
-        }
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
 
