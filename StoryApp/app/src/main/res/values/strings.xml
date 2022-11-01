@@ -11,4 +11,11 @@
     <string name="email_spec">Email must be unique</string>
     <string name="pass_spec">Password must be at least 6 characters</string>
     <string name="email_error">Invalid Email Address</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="successfully_login_message">Sign In Success!</string>
+    <string name="next">Next</string>
+    <string name="dialogSignOutMessage">Are you sure to sign out?</string>
+    <string name="dialogSignOutTitle">Sign Out Dialog!</string>
+    <string name="cancel">Cancel</string>
+    <string name="welcome">Welcome %s!</string>
 </resources>
