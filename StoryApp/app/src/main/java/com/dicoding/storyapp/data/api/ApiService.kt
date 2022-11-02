@@ -1,5 +1,6 @@
 package com.dicoding.storyapp.data.api
 
+import com.dicoding.storyapp.data.local.UserPreference
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -23,9 +24,9 @@ interface ApiService {
     ): Call<LoginResponse>
 
     //getUsers
-    @Headers("Authorization: token ")
-    @GET("stories")
+    @Headers("Content-Type: application/json;charset=UTF-8")
+    @GET("stories?size=20")
     fun getStories(
-        @Header("Authorization") value: String
+         @Header("Authorization") value: String
     ): Call<StoriesResponse>
 }

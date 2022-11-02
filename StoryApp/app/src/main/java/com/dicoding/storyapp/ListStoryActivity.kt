@@ -7,12 +7,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.storyapp.adapter.ListStoryAdapter
+import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.local.UserModel
 import com.dicoding.storyapp.data.local.UserPreference
 import com.dicoding.storyapp.databinding.ActivityListStoryBinding
@@ -38,13 +44,48 @@ class ListStoryActivity : AppCompatActivity() {
             ViewModelFactory(UserPreference.getInstance(dataStore))
         )[MainViewModel::class.java]
 
+        mainViewModel.isLoading.observe(this){
+            showLoading(it)
+        }
+
+        mainViewModel.toastText.observe(this){
+            it.getContentIfNotHandled()?.let { toastText ->
+                Toast.makeText(this@ListStoryActivity, toastText, Toast.LENGTH_SHORT).show()
+            }
+        }
+
         mainViewModel.getUser().observe(this){ user ->
             if (user.isLogin){
                 title = getString(R.string.welcome, user.name)
+                mainViewModel.getListStories(user.token)
             }else{
                 startActivity(Intent(this, SignInActivity::class.java))
                 finish()
             }
+        }
+
+        mainViewModel.storiesData.observe(this){ listStories ->
+            showResult(listStories)
+        }
+    }
+
+    private fun showResult(listStories: List<ListStoryItem>) {
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvStory.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        binding.rvStory.addItemDecoration(itemDecoration)
+
+        binding.rvStory.setHasFixedSize(true)
+
+        val adapter = ListStoryAdapter(listStories)
+        binding.rvStory.adapter = adapter
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.loadingIcon.visibility = View.VISIBLE
+        } else {
+            binding.loadingIcon.visibility = View.GONE
         }
     }
 
