@@ -1,4 +1,4 @@
-package com.dicoding.storyapp
+package com.dicoding.storyapp.ui
 
 import android.content.Context
 import android.content.Intent
@@ -14,6 +14,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.storyapp.R
 import com.dicoding.storyapp.adapter.ListStoryAdapter
 import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.local.UserPreference
@@ -22,7 +23,7 @@ import com.dicoding.storyapp.models.MainViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-class ListStoryActivity : AppCompatActivity() {
+class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityListStoryBinding
     private lateinit var mainViewModel: MainViewModel
 
@@ -31,7 +32,15 @@ class ListStoryActivity : AppCompatActivity() {
         binding = ActivityListStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.fabAdd.setOnClickListener(this)
+
         setupViewModel()
+    }
+
+    override fun onClick(v: View) {
+        if (v.id == R.id.fab_add){
+            startActivity(Intent(this@ListStoryActivity, UploadActivity::class.java))
+        }
     }
 
     private fun setupViewModel() {
@@ -52,6 +61,7 @@ class ListStoryActivity : AppCompatActivity() {
 
         mainViewModel.getUser().observe(this){ user ->
             if (user.isLogin){
+                TOKEN = user.token
                 title = getString(R.string.welcome, user.name)
                 mainViewModel.getListStories(user.token)
             }else{
@@ -81,7 +91,9 @@ class ListStoryActivity : AppCompatActivity() {
         adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback{
             override fun onItemClicked(data: ListStoryItem) {
                 val iToDetail = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
-                iToDetail.putExtra(DetailStoryActivity.EXTRADATA, data)
+                println(data.id)
+                iToDetail.putExtra("ID", data.id)
+                iToDetail.putExtra("TOKEN", TOKEN)
                 startActivity(iToDetail)
             }
         })
@@ -117,5 +129,9 @@ class ListStoryActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    companion object{
+        private var TOKEN = ""
     }
 }

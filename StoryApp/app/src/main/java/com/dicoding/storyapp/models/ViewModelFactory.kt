@@ -12,8 +12,8 @@ class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.New
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(pref) as T
             }
-            modelClass.isAssignableFrom(SignUpViewModel::class.java) -> {
-                SignUpViewModel(pref) as T
+            modelClass.isAssignableFrom(UploadViewModel::class.java) -> {
+                UploadViewModel(pref) as T
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(pref) as T

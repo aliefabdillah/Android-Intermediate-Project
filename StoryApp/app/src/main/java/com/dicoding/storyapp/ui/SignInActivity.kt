@@ -1,11 +1,8 @@
-package com.dicoding.storyapp
+package com.dicoding.storyapp.ui
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +11,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import com.dicoding.storyapp.R
 import com.dicoding.storyapp.data.local.UserModel
 import com.dicoding.storyapp.data.local.UserPreference
 import com.dicoding.storyapp.databinding.ActivitySignInBinding
@@ -24,7 +22,6 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class SignInActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivitySignInBinding
     private lateinit var loginViewModel: LoginViewModel
-    private lateinit var user: UserModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

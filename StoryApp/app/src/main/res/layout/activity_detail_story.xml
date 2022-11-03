@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DetailStoryActivity">
+        tools:context=".ui.DetailStoryActivity">
 
         <ImageView
             android:id="@+id/imageDetailView"
@@ -26,27 +26,31 @@
 
         <TextView
             android:id="@+id/tv_username"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/username"
+            tools:text="Lorem Ipsum"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="?attr/colorOnSecondary"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageDetailView"
             app:layout_constraintStart_toStartOf="parent"
             />
 
         <TextView
             android:id="@+id/tv_description"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/description"
+            tools:text="Lorem Ipsum dolor sit amet"
             android:textSize="18sp"
             android:textColor="?attr/colorOnSecondary"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_username"
             app:layout_constraintStart_toStartOf="parent"
             />

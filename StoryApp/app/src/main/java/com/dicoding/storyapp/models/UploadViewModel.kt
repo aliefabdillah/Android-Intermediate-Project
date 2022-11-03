@@ -4,15 +4,21 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.dicoding.storyapp.data.api.ApiConfig
 import com.dicoding.storyapp.data.api.CallbackResponse
+import com.dicoding.storyapp.data.local.UserModel
+import com.dicoding.storyapp.data.local.UserPreference
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
-class SignUpViewModel : ViewModel() {
+class UploadViewModel(private val pref: UserPreference): ViewModel() {
+
     private val _error = MutableLiveData<Boolean>()
-    val error: LiveData<Boolean> = _error
+    val isError: LiveData<Boolean> = _error
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -20,12 +26,14 @@ class SignUpViewModel : ViewModel() {
     private val _toastText = MutableLiveData<EventHandlerToast<String>>()
     val toastText: LiveData<EventHandlerToast<String>> = _toastText
 
-    fun signUpUser(name: String, email: String, pass: String){
+    fun uploadStory(token: String, imageMultipart: MultipartBody.Part, desc: RequestBody){
         _isLoading.value = true
-        val client = ApiConfig.getApiService().uploadRegister(name, email, pass)
+        val client = ApiConfig.getApiService().uploadStory("Bearer $token", imageMultipart, desc)
         client.enqueue(object : retrofit2.Callback<CallbackResponse>{
-            override fun onResponse(call: Call<CallbackResponse>, response: Response<CallbackResponse>) {
-                _isLoading.value = false
+            override fun onResponse(
+                call: Call<CallbackResponse>,
+                response: Response<CallbackResponse>
+            ) {
                 if (response.isSuccessful){
                     _error.value = response.body()?.error
                     _toastText.value = EventHandlerToast(response.body()?.message.toString())
@@ -41,11 +49,14 @@ class SignUpViewModel : ViewModel() {
                 _isLoading.value = false
                 Log.e(TAG, "OnFailure in Failure Method: ${t.message}")
             }
-
         })
     }
 
-    companion object {
-        private const val TAG = "MainViewModel"
+    fun getUser(): LiveData<UserModel> {
+        return pref.getUser().asLiveData()
+    }
+
+    companion object{
+        private const val TAG = "UploadViewModel"
     }
 }

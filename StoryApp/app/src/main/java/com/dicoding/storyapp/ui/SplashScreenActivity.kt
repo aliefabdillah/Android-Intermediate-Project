@@ -1,4 +1,4 @@
-package com.dicoding.storyapp
+package com.dicoding.storyapp.ui
 
 import android.annotation.SuppressLint
 import android.content.Context

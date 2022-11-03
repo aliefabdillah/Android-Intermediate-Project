@@ -1,5 +1,7 @@
 package com.dicoding.storyapp.data.api
 
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -23,9 +25,25 @@ interface ApiService {
     ): Call<LoginResponse>
 
     //getUsers
-    @Headers("Content-Type: application/json;charset=UTF-8")
     @GET("stories?size=20")
     fun getStories(
-         @Header("Authorization") value: String
+         @Header("Authorization") token: String
     ): Call<StoriesResponse>
+
+    //getDetails
+    @GET("stories/{id}")
+    fun getDetailsStory(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): Call<DetailStoriesResponse>
+
+    //uploadStory
+    @Multipart
+    @POST("stories")
+    fun uploadStory(
+        @Header("Authorization") token: String,
+        @Part file: MultipartBody.Part,
+        @Part("description") description: RequestBody
+    ): Call<CallbackResponse>
+
 }

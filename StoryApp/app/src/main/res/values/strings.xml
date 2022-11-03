@@ -21,7 +21,20 @@
     <string name="story_name">%s\'s Story </string>
     <string name="username">USERNAME</string>
     <string name="add_story_button">Add Story Button</string>
-    <string name="description">DESCRIPTION</string>
+    <string name="description">Description</string>
     <string name="list_story_is_empty">List Story is Empty</string>
     <string name="story_image">Story Image</string>
+    <string name="capture_button">Capture Button</string>
+    <string name="switch_camera_button">Switch Camera Button</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="image_preview">Image Preview</string>
+    <string name="upload">Upload</string>
+    <string name="show_camera_error">Failed to Show Camera</string>
+    <string name="permission_denied">Didn\'t get permission</string>
+    <string name="load_image_failed">Load Image Failed!</string>
+    <string name="load_image_success">Load Image Successed!</string>
+    <string name="uploadActivity_title">Upload Story</string>
+    <string name="upload_image_error">Please enter the image first</string>
+    <string name="photo">photo</string>
 </resources>

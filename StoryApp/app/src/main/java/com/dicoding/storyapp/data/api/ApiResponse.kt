@@ -1,8 +1,6 @@
 package com.dicoding.storyapp.data.api
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
 data class CallbackResponse(
 
@@ -49,7 +47,18 @@ data class StoriesResponse(
 	val message: String
 )
 
-@Parcelize
+data class DetailStoriesResponse(
+
+	@field:SerializedName("story")
+	val story: ListStoryItem,
+
+	@field:SerializedName("error")
+	val error: Boolean,
+
+	@field:SerializedName("message")
+	val message: String
+)
+
 data class ListStoryItem(
 
 	@field:SerializedName("photoUrl")
@@ -72,5 +81,5 @@ data class ListStoryItem(
 
 	@field:SerializedName("lat")
 	val lat: Double
-): Parcelable
+)
 

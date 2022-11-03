@@ -1,26 +1,17 @@
-package com.dicoding.storyapp
+package com.dicoding.storyapp.ui
 
-import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModelProvider
-import com.dicoding.storyapp.data.local.UserPreference
+import com.dicoding.storyapp.R
 import com.dicoding.storyapp.databinding.ActivitySignUpBinding
 import com.dicoding.storyapp.models.SignUpViewModel
-import com.dicoding.storyapp.models.ViewModelFactory
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class SignUpActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivitySignUpBinding
-    private lateinit var signUpViewModel: SignUpViewModel
+    private val signUpViewModel: SignUpViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +21,6 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar?.hide()
 
         binding.btnSignUp.setOnClickListener(this)
-
-        setupViewModel()
 
         signUpViewModel.isLoading.observe(this@SignUpActivity){
             showLoading(it)
@@ -51,13 +40,6 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
             signUpViewModel.signUpUser(name, email, pass)
             println("$name, $email, $pass")
         }
-    }
-
-    private fun setupViewModel() {
-        signUpViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
-        )[SignUpViewModel::class.java]
     }
 
     private fun signUpCallback(error: Boolean) {
