@@ -3,15 +3,13 @@ package com.dicoding.storyapp.ui
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.transition.Explode
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
