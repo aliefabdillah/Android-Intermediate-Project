@@ -7,10 +7,12 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import com.dicoding.storyapp.R
 
 class PasswordEditText : AppCompatEditText, View.OnTouchListener {
@@ -33,6 +35,33 @@ class PasswordEditText : AppCompatEditText, View.OnTouchListener {
         startIcon = ContextCompat.getDrawable(context, R.drawable.state_icon_lock) as Drawable
 
         setOnTouchListener(this)
+
+        addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(c: CharSequence, p1: Int, p2: Int, p3: Int) {
+                if (c.toString().isEmpty()){
+                    error = context.getString(R.string.required)
+                }
+            }
+
+            override fun onTextChanged(c: CharSequence, start: Int, before: Int, count: Int) {
+                if (c.toString().isNotEmpty()) {
+                    showClearButton()
+                } else hideClearButton()
+
+                if (c.toString().isEmpty()){
+                    error = context.getString(R.string.required)
+                }
+
+                if (c.toString().length < 6){
+                    error = context.getString(R.string.pass_spec)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                //
+            }
+
+        })
     }
 
     override fun onDraw(canvas: Canvas) {

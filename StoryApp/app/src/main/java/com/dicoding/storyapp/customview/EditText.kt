@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
@@ -38,20 +39,28 @@ class EditText : AppCompatEditText, View.OnTouchListener {
         setOnTouchListener(this)
 
         addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                //
+            override fun beforeTextChanged(c: CharSequence, p1: Int, p2: Int, p3: Int) {
+                if (c.toString().isEmpty()){
+                    error = context.getString(R.string.required)
+                }
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (s.toString().isNotEmpty()) {
+            override fun onTextChanged(c: CharSequence, start: Int, before: Int, count: Int) {
+                if (c.toString().isNotEmpty()) {
                     showClearButton()
-                    if (s.length < 6){
-                    }
                 } else hideClearButton()
+
+                if (c.toString().isEmpty()){
+                    error = context.getString(R.string.required)
+                }
             }
 
-            override fun afterTextChanged(p0: Editable?) {
-                //
+            override fun afterTextChanged(s: Editable) {
+                if (hint == context.getString(R.string.email_hint)){
+                    if (!Patterns.EMAIL_ADDRESS.matcher(s).matches()){
+                        error = context.getString(R.string.email_error)
+                    }
+                }
             }
 
         })

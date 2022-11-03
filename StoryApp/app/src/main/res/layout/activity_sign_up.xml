@@ -54,26 +54,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/LoginText" />
 
-        <TextView
-            android:id="@+id/name_handler"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/required"
-            android:textColor="@color/red"
-            android:layout_marginStart="42dp"
-            android:layout_marginTop="4dp"
-            android:alpha="0"
-            app:layout_constraintTop_toBottomOf="@id/nameEditText"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
         <com.dicoding.storyapp.customview.EditText
             android:id="@+id/emailEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:background="@drawable/border_input"
@@ -85,20 +72,7 @@
             android:inputType="textWebEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name_handler" />
-
-        <TextView
-            android:id="@+id/email_handler"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/email_spec"
-            android:textColor="@color/red"
-            android:layout_marginStart="42dp"
-            android:layout_marginTop="4dp"
-            android:alpha="0"
-            app:layout_constraintTop_toBottomOf="@id/emailEditText"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
 
         <com.dicoding.storyapp.customview.PasswordEditText
             android:id="@+id/passwordEditText"
@@ -106,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:background="@drawable/border_input"
@@ -118,34 +92,21 @@
             android:minHeight="55dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_handler" />
-
-        <TextView
-            android:id="@+id/password_handler"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pass_spec"
-            android:textColor="@color/red"
-            android:layout_marginStart="42dp"
-            android:layout_marginTop="4dp"
-            android:alpha="0"
-            app:layout_constraintTop_toBottomOf="@id/passwordEditText"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="@string/sign_up"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp"
             app:strokeColor="?attr/colorPrimary"
             app:strokeWidth="1dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password_handler"/>
+            app:layout_constraintTop_toBottomOf="@+id/passwordEditText"/>
 
         <ProgressBar
             android:id="@+id/loadingIcon"

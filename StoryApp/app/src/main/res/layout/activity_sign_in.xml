@@ -54,24 +54,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/LoginText" />
 
-        <TextView
-            android:id="@+id/email_handler"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/red"
-            android:layout_marginStart="42dp"
-            android:layout_marginTop="4dp"
-            android:alpha="0"
-            app:layout_constraintTop_toBottomOf="@id/emailEditText"
-            app:layout_constraintStart_toStartOf="parent"/>
-
         <com.dicoding.storyapp.customview.PasswordEditText
             android:id="@+id/passwordEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:background="@drawable/border_input"
@@ -83,48 +72,37 @@
             android:minHeight="55dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_handler" />
-
-        <TextView
-            android:id="@+id/password_handler"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pass_spec"
-            android:textColor="@color/red"
-            android:layout_marginStart="42dp"
-            android:layout_marginTop="4dp"
-            android:alpha="0"
-            app:layout_constraintTop_toBottomOf="@id/passwordEditText"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignIn"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="24dp"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp"
             android:text="@string/sign_in"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password_handler"/>
+            app:layout_constraintTop_toBottomOf="@+id/passwordEditText"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="@string/sign_up"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="48dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="48dp"
-            android:textColor="?attr/colorPrimary"
-            android:backgroundTint="?attr/colorOnPrimary"
-            app:strokeColor="?attr/colorPrimary"
-            app:strokeWidth="1dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:backgroundTint="?attr/backgroundColor"
+            android:text="@string/sign_up"
+            android:textColor="?attr/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnSignIn"/>
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSignIn"
+            app:strokeColor="?attr/colorPrimary"
+            app:strokeWidth="1dp" />
 
         <ProgressBar
             android:id="@+id/loadingIcon"

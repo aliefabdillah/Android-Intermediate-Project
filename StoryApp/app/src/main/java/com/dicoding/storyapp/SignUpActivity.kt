@@ -41,7 +41,6 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
             signUpCallback(error)
         }
 
-        handleError()
     }
 
     override fun onClick(v: View?) {
