@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Pair
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,17 +21,20 @@ import com.dicoding.storyapp.adapter.ListStoryAdapter
 import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.local.UserPreference
 import com.dicoding.storyapp.databinding.ActivityListStoryBinding
+import com.dicoding.storyapp.databinding.ItemRowStoryBinding
 import com.dicoding.storyapp.models.MainViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityListStoryBinding
+    private lateinit var itemBinding: ItemRowStoryBinding
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListStoryBinding.inflate(layoutInflater)
+        itemBinding = ItemRowStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.fabAdd.setOnClickListener(this)
@@ -94,7 +98,11 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
                 val iToDetail = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
                 iToDetail.putExtra("ID", data.id)
                 iToDetail.putExtra("TOKEN", TOKEN)
-                startActivity(iToDetail, ActivityOptions.makeSceneTransitionAnimation(this@ListStoryActivity).toBundle())
+                val options = ActivityOptions.makeSceneTransitionAnimation(this@ListStoryActivity,
+                        Pair(itemBinding.imgItem, "storyImage"),
+                        Pair(itemBinding.tvUsername, "username")
+                    )
+                startActivity(iToDetail, options.toBundle())
             }
         })
     }
