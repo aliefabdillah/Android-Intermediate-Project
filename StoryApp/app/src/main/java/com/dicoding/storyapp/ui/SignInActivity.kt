@@ -1,5 +1,7 @@
 package com.dicoding.storyapp.ui
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -33,6 +35,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnSignUp.setOnClickListener(this)
         binding.btnSignIn.setOnClickListener(this)
 
+        setupAnimation()
         setupViewModel()
     }
 
@@ -91,6 +94,27 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
+    private fun setupAnimation() {
+        val imageIcon = setOtherViewAnimation(binding.storyAppIcon)
+        val signInTV = setOtherViewAnimation(binding.LoginText)
+        val emailET = setOtherViewAnimation(binding.emailEditText)
+        val passET = setOtherViewAnimation(binding.passwordEditText)
+        val signInBTN = setOtherViewAnimation(binding.btnSignIn)
+        val signUpBTN = setOtherViewAnimation(binding.btnSignUp)
+
+        AnimatorSet().apply {
+            playSequentially(imageIcon, signInTV, emailET, passET, signInBTN, signUpBTN)
+            start()
+        }
+    }
+
+    private fun setOtherViewAnimation(view: View): ObjectAnimator {
+        return ObjectAnimator.ofFloat(view, View.ALPHA, 1f).apply {
+            duration = 500
+        }
+    }
+
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {

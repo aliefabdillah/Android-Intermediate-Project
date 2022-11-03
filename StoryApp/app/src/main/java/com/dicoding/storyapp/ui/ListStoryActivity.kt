@@ -1,12 +1,15 @@
 package com.dicoding.storyapp.ui
 
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.Explode
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.datastore.core.DataStore
@@ -91,10 +94,9 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
         adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback{
             override fun onItemClicked(data: ListStoryItem) {
                 val iToDetail = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
-                println(data.id)
                 iToDetail.putExtra("ID", data.id)
                 iToDetail.putExtra("TOKEN", TOKEN)
-                startActivity(iToDetail)
+                startActivity(iToDetail, ActivityOptions.makeSceneTransitionAnimation(this@ListStoryActivity).toBundle())
             }
         })
     }

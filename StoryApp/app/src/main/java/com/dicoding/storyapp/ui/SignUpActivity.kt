@@ -1,5 +1,7 @@
 package com.dicoding.storyapp.ui
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -22,6 +24,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.btnSignUp.setOnClickListener(this)
 
+        setupAnimation()
         signUpViewModel.isLoading.observe(this@SignUpActivity){
             showLoading(it)
         }
@@ -39,6 +42,26 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
             val pass = binding.passwordEditText.text.toString()
             signUpViewModel.signUpUser(name, email, pass)
             println("$name, $email, $pass")
+        }
+    }
+
+    private fun setupAnimation() {
+        val imageIcon = setOtherViewAnimation(binding.storyAppIcon)
+        val signUpTV = setOtherViewAnimation(binding.signUpText)
+        val nameET = setOtherViewAnimation(binding.nameEditText)
+        val emailET = setOtherViewAnimation(binding.emailEditText)
+        val passET = setOtherViewAnimation(binding.passwordEditText)
+        val signUpBTN = setOtherViewAnimation(binding.btnSignUp)
+
+        AnimatorSet().apply {
+            playSequentially(imageIcon, signUpTV, nameET, emailET, passET, signUpBTN)
+            start()
+        }
+    }
+
+    private fun setOtherViewAnimation(view: View): ObjectAnimator {
+        return ObjectAnimator.ofFloat(view, View.ALPHA, 1f).apply {
+            duration = 500
         }
     }
 
