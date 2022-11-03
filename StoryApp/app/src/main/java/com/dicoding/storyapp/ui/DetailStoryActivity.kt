@@ -2,6 +2,8 @@ package com.dicoding.storyapp.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -36,9 +38,19 @@ class DetailStoryActivity : AppCompatActivity() {
 
         val token = intent.getStringExtra("TOKEN")
         val id = intent.getStringExtra("ID")
-        println(id)
+
         if (token != null && id != null) {
             detailViewModel.getDetailStory(token, id)
+        }
+
+        detailViewModel.isLoading.observe(this){
+            showLoading(it)
+        }
+
+        detailViewModel.toastText.observe(this){
+            it.getContentIfNotHandled()?.let { toastText ->
+                Toast.makeText(this@DetailStoryActivity, toastText, Toast.LENGTH_SHORT).show()
+            }
         }
 
         detailViewModel.detailStory.observe(this){ detailStory ->
@@ -57,5 +69,13 @@ class DetailStoryActivity : AppCompatActivity() {
 
         binding.tvUsername.text = detailStory.name
         binding.tvDescription.text = detailStory.description
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.loadingIcon.visibility = View.VISIBLE
+        } else {
+            binding.loadingIcon.visibility = View.GONE
+        }
     }
 }

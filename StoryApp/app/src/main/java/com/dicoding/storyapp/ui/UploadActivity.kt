@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -103,6 +104,10 @@ class UploadActivity : AppCompatActivity() {
                 uploadViewModel.uploadStory(dataStore.token, imageMultipart, desc)
             }
 
+            uploadViewModel.isLoading.observe(this){
+                showLoading(it)
+            }
+
             uploadViewModel.isError.observe(this){ error ->
                 if (error){
                     uploadViewModel.toastText.observe(this@UploadActivity){
@@ -180,6 +185,14 @@ class UploadActivity : AppCompatActivity() {
             binding.previewImage.setImageURI(selectedImg)
 
             getFile = myFile
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.loadingIcon.visibility = View.VISIBLE
+        } else {
+            binding.loadingIcon.visibility = View.GONE
         }
     }
 
