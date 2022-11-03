@@ -18,6 +18,10 @@
     <string name="dialogSignOutTitle">Sign Out Dialog!</string>
     <string name="cancel">Cancel</string>
     <string name="welcome">Welcome %s!</string>
+    <string name="story_name">%s\'s Story </string>
     <string name="username">USERNAME</string>
     <string name="add_story_button">Add Story Button</string>
+    <string name="description">DESCRIPTION</string>
+    <string name="list_story_is_empty">List Story is Empty</string>
+    <string name="story_image">Story Image</string>
 </resources>

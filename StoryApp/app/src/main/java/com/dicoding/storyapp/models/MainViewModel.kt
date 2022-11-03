@@ -1,7 +1,11 @@
 package com.dicoding.storyapp.models
 
+import android.app.Application
+import android.content.Context
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
+import com.dicoding.storyapp.R
 import com.dicoding.storyapp.data.api.ApiConfig
 import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.api.StoriesResponse
@@ -13,6 +17,8 @@ import retrofit2.Call
 import retrofit2.Response
 
 class MainViewModel(private val pref: UserPreference): ViewModel() {
+
+    private val context = Application()
 
     private val _storiesData = MutableLiveData<List<ListStoryItem>>()
     val storiesData: LiveData<List<ListStoryItem>> = _storiesData
@@ -35,7 +41,9 @@ class MainViewModel(private val pref: UserPreference): ViewModel() {
                 _isLoading.value = false
                 if (response.isSuccessful){
                     _storiesData.value = response.body()?.listStory
-                    println(storiesData)
+                    if (storiesData.value!!.isEmpty()){
+                        _toastText.value = EventHandlerToast(context.applicationContext.getString(R.string.list_story_is_empty))
+                    }
                 }else{
                     println()
                     _toastText.value = EventHandlerToast(response.message())

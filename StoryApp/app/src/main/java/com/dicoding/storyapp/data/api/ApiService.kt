@@ -1,6 +1,5 @@
 package com.dicoding.storyapp.data.api
 
-import com.dicoding.storyapp.data.local.UserPreference
 import retrofit2.Call
 import retrofit2.http.*
 

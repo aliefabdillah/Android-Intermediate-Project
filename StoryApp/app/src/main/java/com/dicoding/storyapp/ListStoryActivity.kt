@@ -1,7 +1,6 @@
 package com.dicoding.storyapp
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,16 +9,13 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storyapp.adapter.ListStoryAdapter
 import com.dicoding.storyapp.data.api.ListStoryItem
-import com.dicoding.storyapp.data.local.UserModel
 import com.dicoding.storyapp.data.local.UserPreference
 import com.dicoding.storyapp.databinding.ActivityListStoryBinding
 import com.dicoding.storyapp.models.MainViewModel
@@ -72,13 +68,23 @@ class ListStoryActivity : AppCompatActivity() {
     private fun showResult(listStories: List<ListStoryItem>) {
         val layoutManager = LinearLayoutManager(this)
         binding.rvStory.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-        binding.rvStory.addItemDecoration(itemDecoration)
 
         binding.rvStory.setHasFixedSize(true)
 
         val adapter = ListStoryAdapter(listStories)
-        binding.rvStory.adapter = adapter
+        if (adapter.itemCount == 0){
+            binding.tvEmptyListStory.alpha = 1f
+        }else{
+            binding.rvStory.adapter = adapter
+        }
+
+        adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback{
+            override fun onItemClicked(data: ListStoryItem) {
+                val iToDetail = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
+                iToDetail.putExtra(DetailStoryActivity.EXTRADATA, data)
+                startActivity(iToDetail)
+            }
+        })
     }
 
     private fun showLoading(isLoading: Boolean) {
