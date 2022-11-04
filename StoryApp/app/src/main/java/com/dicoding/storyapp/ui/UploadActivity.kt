@@ -143,7 +143,7 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun reduceFileImage(file: File): File {
-        val bitmap = BitmapFactory.decodeFile(file.path)
+        val bitmap = rotateBitmap(BitmapFactory.decodeFile(file.path))
         var compressQuality = 100
         var streamLength: Int
         do {
