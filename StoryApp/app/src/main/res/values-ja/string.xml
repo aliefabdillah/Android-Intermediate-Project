@@ -38,4 +38,6 @@
     <string name="upload_image_error">最初に画像を含めてください</string>
     <string name="photo">写真</string>
     <string name="language">言語</string>
+    <string name="appwidget_text">ストーリーバナー</string>
+    <string name="empty_text">データなし</string>
 </resources>

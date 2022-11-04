@@ -38,4 +38,6 @@
     <string name="upload_image_error">Mangga lebetkeun gambar heula</string>
     <string name="photo">poto</string>
     <string name="language">Basa</string>
+    <string name="appwidget_text">STORY BANNER</string>
+    <string name="empty_text">TEU AYA DATA</string>
 </resources>

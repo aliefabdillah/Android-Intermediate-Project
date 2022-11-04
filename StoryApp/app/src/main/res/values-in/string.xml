@@ -38,4 +38,6 @@
     <string name="upload_image_error">Dimohon memasukan gambar terlebih dahulu</string>
     <string name="photo">foto</string>
     <string name="language">Bahasa</string>
+    <string name="appwidget_text">STORY BANNER</string>
+    <string name="empty_text">TIDAK ADA DATA</string>
 </resources>

@@ -38,4 +38,6 @@
     <string name="upload_image_error">Please enter the image first</string>
     <string name="photo">photo</string>
     <string name="language">Language</string>
+    <string name="appwidget_text">STORY BANNER</string>
+    <string name="empty_text">NO DATA</string>
 </resources>
