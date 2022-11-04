@@ -37,4 +37,5 @@
     <string name="uploadActivity_title">Unggah Cerita</string>
     <string name="upload_image_error">Dimohon memasukan gambar terlebih dahulu</string>
     <string name="photo">foto</string>
+    <string name="language">Bahasa</string>
 </resources>

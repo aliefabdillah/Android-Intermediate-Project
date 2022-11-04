@@ -37,4 +37,5 @@
     <string name="uploadActivity_title">Upload Story</string>
     <string name="upload_image_error">Please enter the image first</string>
     <string name="photo">photo</string>
+    <string name="language">Language</string>
 </resources>

@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Pair
 import android.view.Menu
 import android.view.MenuItem
@@ -122,20 +123,27 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.logoutMenu){
-            AlertDialog.Builder(this).apply {
-                setTitle(R.string.dialogSignOutTitle)
-                setMessage(R.string.dialogSignOutMessage)
-                setPositiveButton(getString(R.string.sign_out)) { _, _ ->
-                    mainViewModel.logout()
+        when(item.itemId){
+            R.id.logoutMenu -> {
+                AlertDialog.Builder(this).apply {
+                    setTitle(R.string.dialogSignOutTitle)
+                    setMessage(R.string.dialogSignOutMessage)
+                    setPositiveButton(getString(R.string.sign_out)) { _, _ ->
+                        mainViewModel.logout()
+                    }
+                    setNegativeButton(R.string.cancel) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    create()
+                    show()
                 }
-                setNegativeButton(R.string.cancel) { dialog, _ ->
-                    dialog.cancel()
-                }
-                create()
-                show()
+            }
+            R.id.languageMenu -> {
+                startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
             }
         }
+
+
         return true
     }
 
