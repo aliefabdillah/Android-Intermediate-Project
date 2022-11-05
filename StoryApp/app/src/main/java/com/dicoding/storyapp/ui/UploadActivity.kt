@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,6 +15,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -25,6 +27,7 @@ import com.dicoding.storyapp.models.DbViewModel
 import com.dicoding.storyapp.models.DbViewModelFactory
 import com.dicoding.storyapp.models.UploadViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
+import com.dicoding.storyapp.utils.createCustomTempFile
 import com.dicoding.storyapp.utils.uriToFile
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -57,7 +60,7 @@ class UploadActivity : AppCompatActivity() {
 
         setupViewmodel()
 
-        binding.cameraBtn.setOnClickListener{ startCamera() }
+        binding.cameraBtn.setOnClickListener{ startTakePhoto() }
         binding.galleryBtn.setOnClickListener { startGallery() }
         binding.uploadBtn.setOnClickListener { uploadStory() }
     }
@@ -147,9 +150,24 @@ class UploadActivity : AppCompatActivity() {
         launcherIntentGallery.launch(intent)
     }
 
-    private fun startCamera() {
-        launcherIntentCameraX.launch(Intent(this, CameraActivity::class.java))
+    private fun startTakePhoto() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.resolveActivity(packageManager)
+
+        //menampung gambar hasil dari intent Kamera
+        createCustomTempFile(application).also {
+            //mengambil lokasi file
+            val photoURI: Uri = FileProvider.getUriForFile(
+                this@UploadActivity,
+                "com.dicoding.storyapp",
+                it
+            )
+            currentPhotoPath = it.absolutePath
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            launcherIntentCamera.launch(intent)
+        }
     }
+
 
     private fun reduceFileImage(file: File): File {
         val bitmap = BitmapFactory.decodeFile(file.path)
@@ -168,17 +186,17 @@ class UploadActivity : AppCompatActivity() {
 
     private var getFile: File? = null
 
-    private val launcherIntentCameraX = registerForActivityResult(
+    private lateinit var currentPhotoPath: String
+    private val launcherIntentCamera = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ){
-        if (it.resultCode == CAMERA_X_RESULT) {
-            val myFile = it.data?.getSerializableExtra("picture") as File
-            val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
+        if (it.resultCode == RESULT_OK){
+            //memanggil path file untuk menyimpan hasil capture kamera
+            val myFile = File(currentPhotoPath)
+            val imageBitmap = BitmapFactory.decodeFile(myFile.path)
+            binding.previewImage.setImageBitmap(imageBitmap)
 
             getFile = myFile
-
-            val result = BitmapFactory.decodeFile(myFile.path)
-            binding.previewImage.setImageBitmap(result)
         }
     }
 
