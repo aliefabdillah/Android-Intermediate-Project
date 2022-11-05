@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.local.StoryEntity
 import com.dicoding.storyapp.databinding.ItemRowStoryBinding
 

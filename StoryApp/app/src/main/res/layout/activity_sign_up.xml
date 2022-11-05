@@ -18,7 +18,7 @@
             android:layout_marginTop="40dp"
             android:alpha="0"
             android:src="@drawable/story_icon_login"
-            android:contentDescription=""
+            android:contentDescription="@string/story_app_logo"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <com.dicoding.storyapp.customview.EditText
+        <com.dicoding.storyapp.customview.InputEditText
             android:id="@+id/nameEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signUpText" />
 
-        <com.dicoding.storyapp.customview.EditText
+        <com.dicoding.storyapp.customview.InputEditText
             android:id="@+id/emailEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

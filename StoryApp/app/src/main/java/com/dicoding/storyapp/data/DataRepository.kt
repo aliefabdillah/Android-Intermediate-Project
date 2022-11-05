@@ -1,11 +1,8 @@
 package com.dicoding.storyapp.data
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import com.dicoding.storyapp.data.local.StoriesDao
 import com.dicoding.storyapp.data.local.StoryEntity
-import com.dicoding.storyapp.data.local.UserModel
-import com.dicoding.storyapp.data.local.UserPreference
 
 class DataRepository private constructor(
     private val storiesDao: StoriesDao
@@ -24,7 +21,6 @@ class DataRepository private constructor(
 
 
     companion object {
-        private const val TAG = "MainViewModel"
 
         @Volatile
         private var instance: DataRepository? = null

@@ -2,7 +2,6 @@ package com.dicoding.storyapp.models
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dicoding.storyapp.data.DataRepository
 import com.dicoding.storyapp.data.local.UserPreference
 
 class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.NewInstanceFactory() {

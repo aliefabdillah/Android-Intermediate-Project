@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.dicoding.storyapp.R
 
-class EditText : AppCompatEditText, View.OnTouchListener {
+class InputEditText : AppCompatEditText, View.OnTouchListener {
 
     private lateinit var endButton: Drawable
     private lateinit var startIcon: Drawable
