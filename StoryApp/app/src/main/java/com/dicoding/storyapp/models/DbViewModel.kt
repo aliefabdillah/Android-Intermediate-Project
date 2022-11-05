@@ -11,6 +11,7 @@ class DbViewModel( private val storyRepository: DataRepository): ViewModel() {
     fun getStories() = storyRepository.getUser()
 
     fun saveStoryToDb(listStoryItem: ListStoryItem){
+
         val listStory = StoryEntity(
             listStoryItem.id,
             listStoryItem.photoUrl,

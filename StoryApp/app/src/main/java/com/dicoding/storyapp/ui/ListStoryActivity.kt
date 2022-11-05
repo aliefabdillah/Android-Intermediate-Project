@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
 import android.util.Pair
 import android.view.Menu
@@ -18,9 +19,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.adapter.ListStoryAdapter
-import com.dicoding.storyapp.data.api.ListStoryItem
+import com.dicoding.storyapp.data.local.StoryEntity
 import com.dicoding.storyapp.data.local.UserPreference
 import com.dicoding.storyapp.databinding.ActivityListStoryBinding
 import com.dicoding.storyapp.databinding.ItemRowStoryBinding
@@ -30,7 +32,8 @@ import com.dicoding.storyapp.models.MainViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
+class ListStoryActivity : AppCompatActivity(), View.OnClickListener,
+    SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: ActivityListStoryBinding
     private lateinit var itemBinding: ItemRowStoryBinding
     private lateinit var mainViewModel: MainViewModel
@@ -41,15 +44,24 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
         itemBinding = ItemRowStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.fabAdd.setOnClickListener(this)
-
         setupViewModel()
+
+        binding.fabAdd.setOnClickListener(this)
+        binding.swipeRefresh.setColorSchemeResources(R.color.orange_200)
+        binding.swipeRefresh.setOnRefreshListener(this)
     }
 
     override fun onClick(v: View) {
         if (v.id == R.id.fab_add){
             startActivity(Intent(this@ListStoryActivity, UploadActivity::class.java))
         }
+    }
+
+    override fun onRefresh() {
+        setupViewModel()
+        Handler().postDelayed({
+            binding.swipeRefresh.isRefreshing = false
+        }, 2000)
     }
 
     private fun setupViewModel() {
@@ -77,6 +89,7 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
             if (user.isLogin){
                 TOKEN = user.token
                 title = getString(R.string.welcome, user.name)
+                dbViewModel.deleteAllData()
                 mainViewModel.getListStories(user.token)
             }else{
                 startActivity(Intent(this, SignInActivity::class.java))
@@ -88,31 +101,34 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
             listStories.forEach {
                 dbViewModel.saveStoryToDb(it)
             }
+        }
+
+        dbViewModel.getStories().observe(this){ listStories ->
             showResult(listStories)
         }
     }
 
-    private fun showResult(listStories: List<ListStoryItem>) {
+    private fun showResult(listStories: List<StoryEntity>) {
         val layoutManager = LinearLayoutManager(this)
         binding.rvStory.layoutManager = layoutManager
 
         binding.rvStory.setHasFixedSize(true)
 
-        if (listStories.isEmpty()){
+        val adapter = ListStoryAdapter(listStories)
+        if (adapter.itemCount == 0){
             binding.tvEmptyListStory.alpha = 1f
         }else{
-            val adapter = ListStoryAdapter(listStories)
+            binding.tvEmptyListStory.alpha = 0f
             binding.rvStory.adapter = adapter
-
             adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback{
-                override fun onItemClicked(data: ListStoryItem) {
+                override fun onItemClicked(data: StoryEntity) {
                     val iToDetail = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
                     iToDetail.putExtra("ID", data.id)
                     iToDetail.putExtra("TOKEN", TOKEN)
                     val options = ActivityOptions.makeSceneTransitionAnimation(this@ListStoryActivity,
-                        Pair(itemBinding.imgItem, "storyImage"),
-                        Pair(itemBinding.tvUsername, "username")
-                    )
+                            Pair(itemBinding.imgItem, "storyImage"),
+                            Pair(itemBinding.tvUsername, "username")
+                        )
                     startActivity(iToDetail, options.toBundle())
                 }
             })

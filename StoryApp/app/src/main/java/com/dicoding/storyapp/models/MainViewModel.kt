@@ -55,6 +55,7 @@ class MainViewModel(private val pref: UserPreference): ViewModel() {
 
             override fun onFailure(call: Call<StoriesResponse>, t: Throwable) {
                 _isLoading.value = false
+                _toastText.value = EventHandlerToast(t.message.toString())
                 Log.e(TAG, "OnFailure in Response Method: ${t.message}")
             }
 
@@ -81,6 +82,7 @@ class MainViewModel(private val pref: UserPreference): ViewModel() {
 
             override fun onFailure(call: Call<DetailStoriesResponse>, t: Throwable) {
                 _isLoading.value = false
+                _toastText.value = EventHandlerToast(t.message.toString())
                 Log.e(TAG, "OnFailure in Response Method: ${t.message}")
             }
 

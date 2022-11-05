@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,6 +21,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.data.local.UserPreference
 import com.dicoding.storyapp.databinding.ActivityUploadBinding
+import com.dicoding.storyapp.models.DbViewModel
+import com.dicoding.storyapp.models.DbViewModelFactory
 import com.dicoding.storyapp.models.UploadViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 import com.dicoding.storyapp.utils.uriToFile
@@ -89,6 +92,11 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun uploadStory() {
+        val viewModelFactory: DbViewModelFactory = DbViewModelFactory.getInstance(this)
+        val dbViewModel: DbViewModel by viewModels {
+            viewModelFactory
+        }
+
         if (getFile != null){
             val file = reduceFileImage(getFile as File)
             val desc = binding.editTextDesc.text.toString().toRequestBody("text/plain".toMediaType())
@@ -98,6 +106,8 @@ class UploadActivity : AppCompatActivity() {
                 file.name,
                 imageFile
             )
+
+            dbViewModel.deleteAllData()
 
             uploadViewModel.getUser().observe(this){ dataStore ->
                 uploadViewModel.uploadStory(dataStore.token, imageMultipart, desc)
