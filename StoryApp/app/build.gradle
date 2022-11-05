@@ -9,12 +9,16 @@ android {
     namespace 'com.dicoding.storyapp'
     compileSdk 33
 
+    def localProperties = new Properties()
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
     defaultConfig {
         applicationId "com.dicoding.storyapp"
         minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"
+        buildConfigField "String", "WEB_URL", localProperties['webUrl']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
