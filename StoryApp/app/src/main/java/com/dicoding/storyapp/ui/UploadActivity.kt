@@ -95,7 +95,7 @@ class UploadActivity : AppCompatActivity() {
             val desc = binding.editTextDesc.text.toString().toRequestBody("text/plain".toMediaType())
             val imageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                getString(R.string.photo),
+                "photo",
                 file.name,
                 imageFile
             )
@@ -143,7 +143,7 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun reduceFileImage(file: File): File {
-        val bitmap = rotateBitmap(BitmapFactory.decodeFile(file.path))
+        val bitmap = BitmapFactory.decodeFile(file.path)
         var compressQuality = 100
         var streamLength: Int
         do {
@@ -168,7 +168,7 @@ class UploadActivity : AppCompatActivity() {
 
             getFile = myFile
 
-            val result = rotateBitmap(BitmapFactory.decodeFile(myFile.path), isBackCamera)
+            val result = BitmapFactory.decodeFile(myFile.path)
             binding.previewImage.setImageBitmap(result)
         }
     }
