@@ -16,7 +16,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.databinding.ActivityCameraBinding
-import com.dicoding.storyapp.di.createFile
+import com.dicoding.storyapp.utils.createFile
 
 class CameraActivity : AppCompatActivity(), View.OnClickListener {
 

@@ -4,10 +4,12 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.dicoding.storyapp.R
+import com.dicoding.storyapp.data.DataRepository
 import com.dicoding.storyapp.data.api.ApiConfig
 import com.dicoding.storyapp.data.api.DetailStoriesResponse
 import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.api.StoriesResponse
+import com.dicoding.storyapp.data.local.StoryEntity
 import com.dicoding.storyapp.data.local.UserModel
 import com.dicoding.storyapp.data.local.UserPreference
 import kotlinx.coroutines.launch

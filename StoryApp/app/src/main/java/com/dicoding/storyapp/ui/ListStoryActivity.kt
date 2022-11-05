@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
@@ -23,6 +24,8 @@ import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.local.UserPreference
 import com.dicoding.storyapp.databinding.ActivityListStoryBinding
 import com.dicoding.storyapp.databinding.ItemRowStoryBinding
+import com.dicoding.storyapp.models.DbViewModel
+import com.dicoding.storyapp.models.DbViewModelFactory
 import com.dicoding.storyapp.models.MainViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 
@@ -50,6 +53,11 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setupViewModel() {
+        val viewModelFactory: DbViewModelFactory = DbViewModelFactory.getInstance(this)
+        val dbViewModel: DbViewModel by viewModels {
+            viewModelFactory
+        }
+
         mainViewModel = ViewModelProvider(
             this,
             ViewModelFactory(UserPreference.getInstance(dataStore))
@@ -77,6 +85,9 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         mainViewModel.storiesData.observe(this){ listStories ->
+            listStories.forEach {
+                dbViewModel.saveStoryToDb(it)
+            }
             showResult(listStories)
         }
     }
@@ -87,25 +98,26 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.rvStory.setHasFixedSize(true)
 
-        val adapter = ListStoryAdapter(listStories)
-        if (adapter.itemCount == 0){
+        if (listStories.isEmpty()){
             binding.tvEmptyListStory.alpha = 1f
         }else{
+            val adapter = ListStoryAdapter(listStories)
             binding.rvStory.adapter = adapter
-        }
 
-        adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback{
-            override fun onItemClicked(data: ListStoryItem) {
-                val iToDetail = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
-                iToDetail.putExtra("ID", data.id)
-                iToDetail.putExtra("TOKEN", TOKEN)
-                val options = ActivityOptions.makeSceneTransitionAnimation(this@ListStoryActivity,
+            adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback{
+                override fun onItemClicked(data: ListStoryItem) {
+                    val iToDetail = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
+                    iToDetail.putExtra("ID", data.id)
+                    iToDetail.putExtra("TOKEN", TOKEN)
+                    val options = ActivityOptions.makeSceneTransitionAnimation(this@ListStoryActivity,
                         Pair(itemBinding.imgItem, "storyImage"),
                         Pair(itemBinding.tvUsername, "username")
                     )
-                startActivity(iToDetail, options.toBundle())
-            }
-        })
+                    startActivity(iToDetail, options.toBundle())
+                }
+            })
+        }
+
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -123,6 +135,11 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val viewModelFactory: DbViewModelFactory = DbViewModelFactory.getInstance(this)
+        val dbViewModel: DbViewModel by viewModels {
+            viewModelFactory
+        }
+
         when(item.itemId){
             R.id.logoutMenu -> {
                 AlertDialog.Builder(this).apply {
@@ -130,6 +147,7 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener {
                     setMessage(R.string.dialogSignOutMessage)
                     setPositiveButton(getString(R.string.sign_out)) { _, _ ->
                         mainViewModel.logout()
+                        dbViewModel.deleteAllData()
                     }
                     setNegativeButton(R.string.cancel) { dialog, _ ->
                         dialog.cancel()

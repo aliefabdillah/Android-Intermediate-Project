@@ -2,23 +2,26 @@ package com.dicoding.storyapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.dicoding.storyapp.data.local.StoriesDao
+import com.dicoding.storyapp.data.local.StoryEntity
 import com.dicoding.storyapp.data.local.UserModel
 import com.dicoding.storyapp.data.local.UserPreference
 
 class DataRepository private constructor(
-    private val pref: UserPreference
+    private val storiesDao: StoriesDao
 ){
-    fun getUser(): LiveData<UserModel> {
-        return pref.getUser().asLiveData()
+    fun getUser(): LiveData<List<StoryEntity>> {
+        return storiesDao.getUser()
     }
 
-    suspend fun saveUser(userModel: UserModel){
-        pref.saveUser(userModel)
+    suspend fun insertStory(listStory: StoryEntity) {
+        storiesDao.insertStories(listStory)
     }
 
-    suspend fun logout() {
-        pref.logout()
+    suspend fun deleteStory(){
+        storiesDao.deleteAllStory()
     }
+
 
     companion object {
         private const val TAG = "MainViewModel"
@@ -26,10 +29,10 @@ class DataRepository private constructor(
         @Volatile
         private var instance: DataRepository? = null
         fun getInstance(
-            pref: UserPreference
+            storiesDao: StoriesDao
         ): DataRepository =
             instance ?: synchronized(this){
-                instance ?: DataRepository(pref)
+                instance ?: DataRepository(storiesDao)
             }.also { instance = it }
     }
 }

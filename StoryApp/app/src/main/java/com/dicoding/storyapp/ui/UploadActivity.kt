@@ -20,8 +20,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.data.local.UserPreference
 import com.dicoding.storyapp.databinding.ActivityUploadBinding
-import com.dicoding.storyapp.di.rotateBitmap
-import com.dicoding.storyapp.di.uriToFile
+import com.dicoding.storyapp.utils.rotateBitmap
+import com.dicoding.storyapp.utils.uriToFile
 import com.dicoding.storyapp.models.UploadViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 import okhttp3.MediaType.Companion.toMediaType
