@@ -34,6 +34,7 @@ class UploadViewModel(private val pref: UserPreference): ViewModel() {
                 call: Call<CallbackResponse>,
                 response: Response<CallbackResponse>
             ) {
+                _isLoading.value = false
                 if (response.isSuccessful){
                     _error.value = response.body()?.error
                     _toastText.value = EventHandlerToast(response.body()?.message.toString())
