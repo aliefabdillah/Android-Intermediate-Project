@@ -1,0 +1,102 @@
+package com.dicoding.mystudentdata
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.mystudentdata.adapter.StudentAndUnivAdapter
+import com.dicoding.mystudentdata.adapter.StudentListAdapter
+import com.dicoding.mystudentdata.adapter.StudentWithCourseAdapter
+import com.dicoding.mystudentdata.adapter.UnivAndStudentAdapter
+import com.dicoding.mystudentdata.databinding.ActivityMainBinding
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+    private val mainViewModel: MainViewModel by viewModels {
+        ViewModelFactory((application as MyApplication).repository)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.rvStudent.layoutManager = LinearLayoutManager(this)
+
+        getStudent()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.option_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_single_table -> {
+                getStudent()
+                return true
+            }
+            R.id.action_many_to_one -> {
+                getStudentAndUniversity()
+                true
+            }
+            R.id.action_one_to_many -> {
+                getUniversityAndStudent()
+                true
+            }
+
+            R.id.action_many_to_many -> {
+                getStudentWithCourse()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun getStudent() {
+        val adapter = StudentListAdapter()
+        binding.rvStudent.adapter = adapter
+        mainViewModel.getAllStudent().observe(this) {
+            adapter.submitList(it)
+        }
+    }
+
+    private fun getStudentAndUniversity() {
+        val adapter = StudentAndUnivAdapter()
+        binding.rvStudent.adapter = adapter
+        mainViewModel.getAllStudentAndUniversity().observe(this){
+            adapter.submitList(it)
+            Log.d(TAG, "getStudentAndUniv: $it")
+        }
+    }
+
+    private fun getUniversityAndStudent() {
+        val adapter = UnivAndStudentAdapter()
+        binding.rvStudent.adapter = adapter
+        mainViewModel.getAllUnivAndStudent().observe(this){
+            adapter.submitList(it)
+            Log.d(TAG, "getUnivAndStudent: $it")
+        }
+    }
+
+
+    private fun getStudentWithCourse() {
+        val adapter = StudentWithCourseAdapter()
+        binding.rvStudent.adapter = adapter
+        mainViewModel.getAllStudentWithCourse().observe(this){
+            adapter.submitList(it)
+            Log.d(TAG, "getStudentWithCourse: $it")
+        }
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
+    }
+
+}
