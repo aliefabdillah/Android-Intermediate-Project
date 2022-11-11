@@ -1,6 +1,7 @@
 package com.dicoding.mystudentdata.database
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
 
@@ -23,8 +24,14 @@ interface StudentDao {
 
     //anotasi menandakan penggunaan rawQuery
     //agar bisa diobserve tabelnya menggunakan observedEntities
+//    @RawQuery(observedEntities = [Student::class])
+//    fun getAllStudent(query: SupportSQLiteQuery): LiveData<List<Student>>
+
+    //get data menggunakan paging 2
+    //DataSource adalah sebuah kelas dasar untuk mengatur seberapa banyak data yang diambil ke dalam PagedList.
     @RawQuery(observedEntities = [Student::class])
-    fun getAllStudent(query: SupportSQLiteQuery): LiveData<List<Student>>
+    fun getAllStudent(query: SupportSQLiteQuery): DataSource.Factory<Int, Student>
+
 
     //transaction digunakan untuk menjalankan lebih dari satu query secara bersama
     @Transaction
