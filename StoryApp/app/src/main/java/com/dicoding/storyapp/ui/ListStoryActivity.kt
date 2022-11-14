@@ -61,7 +61,7 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener,
         setupViewModel()
         Handler().postDelayed({
             binding.swipeRefresh.isRefreshing = false
-        }, 2000)
+        }, REFRESH_TIME)
     }
 
     private fun setupViewModel() {
@@ -182,6 +182,7 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     companion object{
+        private const val REFRESH_TIME = 2000L
         private var TOKEN = ""
     }
 }

@@ -10,7 +10,7 @@ import com.dicoding.storyapp.databinding.ItemRowStoryBinding
 class ListStoryAdapter(private val listStories: List<StoryEntity>) :
     RecyclerView.Adapter<ListStoryAdapter.ListViewHolder>() {
 
-    class ListViewHolder(var binding: ItemRowStoryBinding): RecyclerView.ViewHolder(binding.root)
+    inner class ListViewHolder(var binding: ItemRowStoryBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
