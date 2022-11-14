@@ -151,7 +151,7 @@ class UploadActivity : AppCompatActivity() {
             //menggunakan geocoder
             val list = geoCoder.getFromLocation(lat, long, 1)
             if (list != null && list.size != 0){
-                addressName = list[0].getAddressLine(0)     //getAddressLine(0) berarti mengambil data alamat lengkap
+                addressName = "${list[0].featureName}, ${list[0].subAdminArea}, ${list[0].adminArea}"
                 Log.d(MapStoryFragment.TAG, "getAddressName: $addressName")
             }
         }catch (e: IOException){

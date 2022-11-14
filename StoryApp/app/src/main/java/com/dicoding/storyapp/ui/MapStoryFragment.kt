@@ -71,23 +71,6 @@ class MapStoryFragment : Fragment(), OnMapReadyCallback, SwipeRefreshLayout.OnRe
         }
     }
 
-    private fun getAddressName(lat: Double, long: Double): String?{
-        var addressName: String? = null
-        val geoCoder = Geocoder(requireActivity(), Locale.getDefault())
-        try {
-            //menggunakan geocoder
-            val list = geoCoder.getFromLocation(lat, long, 1)
-            if (list != null && list.size != 0){
-                addressName = list[0].getAddressLine(0)     //getAddressLine(0) berarti mengambil data alamat lengkap
-                Log.d(TAG, "getAddressName: $addressName")
-            }
-        }catch (e: IOException){
-            e.printStackTrace()
-        }
-
-        return addressName
-    }
-
     private fun getStoryWithLocation(token: String) {
         mapsViewModel.getListStoriesWithLocation(token, 1).observe(viewLifecycleOwner){ result ->
             if (result != null){
