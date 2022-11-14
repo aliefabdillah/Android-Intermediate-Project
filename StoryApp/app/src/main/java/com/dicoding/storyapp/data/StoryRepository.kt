@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.dicoding.storyapp.data.api.*
+import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.utils.EventHandlerToast
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -18,9 +19,9 @@ class StoryRepository private constructor(
     private val getDetailResult = MediatorLiveData<Result<ListStoryItem>>()
     private val uploadResult = MediatorLiveData<Result<CallbackResponse>>()
 
-    fun getListStories(token: String): LiveData<Result<List<ListStoryItem>>>{
+    fun getListStories(token: String, location: Int = 0, size: Int = 20): LiveData<Result<List<ListStoryItem>>>{
         getListResult.value = Result.Loading
-        val client = apiService.getStories("Bearer $token")
+        val client = apiService.getStories(size, location, "Bearer $token")
 
         client.enqueue(object: retrofit2.Callback<StoriesResponse>{
             override fun onResponse(
@@ -90,11 +91,13 @@ class StoryRepository private constructor(
     fun uploadStory(
         token: String,
         imageMultipart: MultipartBody.Part,
-        desc: RequestBody
+        desc: RequestBody,
+        lat: Double?,
+        lon: Double?,
     ): LiveData<Result<CallbackResponse>> {
         uploadResult.value = Result.Loading
 
-        val client = apiService.uploadStory("Bearer $token", imageMultipart, desc)
+        val client = apiService.uploadStory("Bearer $token", imageMultipart, desc, lat, lon)
         client.enqueue(object : retrofit2.Callback<CallbackResponse>{
             override fun onResponse(
                 call: Call<CallbackResponse>,

@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -19,8 +20,15 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "WEB_URL", localProperties['webUrl']
+        manifestPlaceholders = [MAPS_API_KEY: "${localProperties['MAPS_API_KEY']}"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
@@ -53,6 +61,10 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
+    //gmaps
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
     //cameraX
     implementation "androidx.camera:camera-camera2:1.2.0-rc01"
     implementation "androidx.camera:camera-lifecycle:1.2.0-rc01"
@@ -71,6 +83,7 @@ dependencies {
     //room
     implementation 'androidx.room:room-ktx:2.4.3'
     implementation 'androidx.room:room-runtime:2.4.3'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
     kapt 'androidx.room:room-compiler:2.4.3'
 
     //testing

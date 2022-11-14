@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.adapter.SectionPagerAdapter
 import com.dicoding.storyapp.databinding.ActivityListStoryBinding
@@ -18,11 +19,15 @@ import com.dicoding.storyapp.models.DbViewModel
 import com.dicoding.storyapp.models.DbViewModelFactory
 import com.dicoding.storyapp.models.MainViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 
-class StoryActivity : AppCompatActivity(), View.OnClickListener {
+class StoryActivity : AppCompatActivity(), View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityListStoryBinding
     private lateinit var itemBinding: ItemRowStoryBinding
+
+    private var token = ""
 
     private val mainViewModel: MainViewModel by viewModels { ViewModelFactory.getInstance(this) }
     private val dbViewModel: DbViewModel by viewModels { ViewModelFactory.getInstance(this) }
@@ -35,23 +40,54 @@ class StoryActivity : AppCompatActivity(), View.OnClickListener {
 
         setupData()
 
-        binding.fabAdd.setOnClickListener(this)
+//        binding.fabAdd.setOnClickListener(this)
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener(this)
+
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var fragment: Fragment? = null
+        when(item.itemId){
+            R.id.listView -> {
+                fragment = ListStoryFragment()
+                fragment.arguments = Bundle().apply {
+                    putString(ListStoryFragment.TOKEN, token)
+                }
+            }
+            R.id.mapsView -> {
+                fragment = MapStoryFragment()
+                fragment.arguments = Bundle().apply {
+                    putString(MapStoryFragment.TOKEN, token)
+                }
+            }
+        }
+
+        if (fragment != null) {
+            renderFragment(fragment)
+        }
+
+        return true
+    }
+
+    private fun renderFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.flFragment, fragment).commit()
     }
 
     override fun onClick(v: View) {
-        if (v.id == R.id.fab_add){
-            startActivity(Intent(this@StoryActivity, UploadActivity::class.java))
-        }
+//        if (v.id == R.id.fab_add){
+//            startActivity(Intent(this@StoryActivity, UploadActivity::class.java))
+//        }
     }
 
     private fun setupData() {
 
         mainViewModel.getUser().observe(this){ user ->
             if (user.isLogin){
-                TOKEN = user.token
+                token = user.token
                 title = getString(R.string.welcome, user.name)
                 dbViewModel.deleteAllData()
-                createTabsLayout(user.token)
+                binding.bottomNavigationView.selectedItemId = R.id.listView
+//                createTabsLayout(user.token)
             }else{
                 startActivity(Intent(this, SignInActivity::class.java))
                 finish()
@@ -60,15 +96,15 @@ class StoryActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun createTabsLayout(token: String){
-        val sectionPagerAdapter = SectionPagerAdapter(this@StoryActivity)
-        sectionPagerAdapter.token = token
-        binding.viewPager.adapter = sectionPagerAdapter
-
-        TabLayoutMediator(binding.storyTab, binding.viewPager){ tab, position ->
-            tab.text = resources.getString(TAB_TITLES[position])
-        }.attach()
-
-        supportActionBar?.elevation = 0f
+//        val sectionPagerAdapter = SectionPagerAdapter(this@StoryActivity)
+//        sectionPagerAdapter.token = token
+//        binding.viewPager.adapter = sectionPagerAdapter
+//
+//        TabLayoutMediator(binding.storyTab, binding.viewPager){ tab, position ->
+//            tab.text = resources.getString(TAB_TITLES[position])
+//        }.attach()
+//
+//        supportActionBar?.elevation = 0f
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -84,6 +120,9 @@ class StoryActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         when(item.itemId){
+            R.id.addStoryBtn -> {
+                startActivity(Intent(this@StoryActivity, UploadActivity::class.java))
+            }
             R.id.logoutMenu -> {
                 AlertDialog.Builder(this).apply {
                     setTitle(R.string.dialogSignOutTitle)

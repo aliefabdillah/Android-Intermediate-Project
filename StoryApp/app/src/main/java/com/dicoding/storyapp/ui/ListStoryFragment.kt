@@ -4,7 +4,6 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
@@ -49,6 +48,7 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.swipeRefresh.setOnRefreshListener(this)
 
         token = arguments?.getString(TOKEN)!!
+        dbViewModel.deleteAllData()
         getStoryCallback(token)
 
         dbViewModel.getStories().observe(viewLifecycleOwner){ listStories ->
@@ -106,7 +106,7 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 override fun onItemClicked(data: StoryEntity) {
                     val iToDetail = Intent(requireActivity(), DetailStoryActivity::class.java)
                     iToDetail.putExtra("ID", data.id)
-                    iToDetail.putExtra("TOKEN", TOKEN)
+                    iToDetail.putExtra("TOKEN", token)
                     val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity(),
                         Pair(itemBinding.imgItem, "storyImage"),
                         Pair(itemBinding.tvUsername, "username")
