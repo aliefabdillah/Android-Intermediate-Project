@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.dicoding.storyapp.data.api.*
-import com.dicoding.storyapp.models.EventHandlerToast
+import com.dicoding.storyapp.utils.EventHandlerToast
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject

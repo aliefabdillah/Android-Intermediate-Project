@@ -1,4 +1,4 @@
-package com.dicoding.storyapp.models
+package com.dicoding.storyapp.utils
 
 open class EventHandlerToast<out T>(private val content: T) {
     @Suppress("MemberVisibilityCanBePrivate")

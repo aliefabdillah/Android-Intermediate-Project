@@ -9,7 +9,7 @@ import com.dicoding.storyapp.data.api.LoginResponse
 import com.dicoding.storyapp.data.api.LoginResult
 import com.dicoding.storyapp.data.local.UserModel
 import com.dicoding.storyapp.data.local.UserPreference
-import com.dicoding.storyapp.models.EventHandlerToast
+import com.dicoding.storyapp.utils.EventHandlerToast
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
