@@ -19,7 +19,7 @@ import com.dicoding.storyapp.R
 import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.databinding.ActivityUploadBinding
 import com.dicoding.storyapp.models.DbViewModel
-import com.dicoding.storyapp.models.MainViewModel
+import com.dicoding.storyapp.models.UploadViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 import com.dicoding.storyapp.utils.createCustomTempFile
 import com.dicoding.storyapp.utils.uriToFile
@@ -35,7 +35,7 @@ import java.io.FileOutputStream
 
 class UploadActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadBinding
-    private val uploadViewModel: MainViewModel by viewModels { ViewModelFactory.getInstance(this) }
+    private val uploadViewModel: UploadViewModel by viewModels { ViewModelFactory.getInstance(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
@@ -220,14 +220,6 @@ class UploadActivity : AppCompatActivity() {
             binding.previewImage.setImageURI(selectedImg)
 
             getFile = myFile
-        }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.loadingIcon.visibility = View.VISIBLE
-        } else {
-            binding.loadingIcon.visibility = View.GONE
         }
     }
 

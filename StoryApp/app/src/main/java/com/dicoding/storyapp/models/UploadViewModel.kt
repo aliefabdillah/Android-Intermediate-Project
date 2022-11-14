@@ -19,6 +19,14 @@ import retrofit2.Response
 
 class UploadViewModel(private val storyRepo: StoryRepository, private val userRepository: UserRepository): ViewModel() {
 
+    fun uploadStory(
+        token: String, imageMultipart: MultipartBody.Part, desc: RequestBody
+    ) = storyRepo.uploadStory(token, imageMultipart, desc)
+
+    fun getUser(): LiveData<UserModel> {
+        return userRepository.getUser().asLiveData()
+    }
+
     /*private val _error = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _error
 

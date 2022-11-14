@@ -10,12 +10,12 @@ import com.dicoding.storyapp.R
 import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.databinding.ActivityDetailStoryBinding
-import com.dicoding.storyapp.models.MainViewModel
+import com.dicoding.storyapp.models.DetailViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 
 class DetailStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailStoryBinding
-    private val detailViewModel: MainViewModel by viewModels { ViewModelFactory.getInstance(this) }
+    private val detailViewModel: DetailViewModel by viewModels { ViewModelFactory.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -60,10 +60,6 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun setupData() {
-//        val viewModelFactory: DbViewModelFactory = DbViewModelFactory.getInstance(this)
-//        val dbViewModel: DbViewModel by viewModels {
-//            viewModelFactory
-//        }
 
         mainViewModel.getUser().observe(this){ user ->
             if (user.isLogin){
@@ -76,39 +72,6 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener,
                 finish()
             }
         }
-
-        /*mainViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
-        )[MainViewModel::class.java]
-
-        mainViewModel.isLoading.observe(this){
-            showLoading(it)
-        }
-
-        mainViewModel.toastText.observe(this){
-            it.getContentIfNotHandled()?.let { toastText ->
-                Toast.makeText(this@ListStoryActivity, toastText, Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        mainViewModel.getUser().observe(this){ user ->
-            if (user.isLogin){
-                TOKEN = user.token
-                title = getString(R.string.welcome, user.name)
-                dbViewModel.deleteAllData()
-                mainViewModel.getListStories(user.token)
-            }else{
-                startActivity(Intent(this, SignInActivity::class.java))
-                finish()
-            }
-        }
-
-        mainViewModel.storiesData.observe(this){ listStories ->
-            listStories.forEach {
-                dbViewModel.saveStoryToDb(it)
-            }
-        }*/
 
         dbViewModel.getStories().observe(this){ listStories ->
             showResult(listStories)

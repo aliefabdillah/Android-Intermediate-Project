@@ -21,9 +21,12 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(storyRepository, userRepository) as T
             }
-//            modelClass.isAssignableFrom(UploadViewModel::class.java) -> {
-//                UploadViewModel(pref) as T
-//            }
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(storyRepository) as T
+            }
+            modelClass.isAssignableFrom(UploadViewModel::class.java) -> {
+                UploadViewModel(storyRepository, userRepository) as T
+            }
             modelClass.isAssignableFrom(DbViewModel::class.java) -> {
                 DbViewModel(dataRepository) as T
             }
