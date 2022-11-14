@@ -16,7 +16,9 @@ class DbViewModel( private val storyRepository: DataRepository): ViewModel() {
             listStoryItem.id,
             listStoryItem.photoUrl,
             listStoryItem.name,
-            listStoryItem.description
+            listStoryItem.description,
+            listStoryItem.lon,
+            listStoryItem.lat
         )
 
         viewModelScope.launch {
