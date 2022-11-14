@@ -1,11 +1,9 @@
 package com.dicoding.storyapp.utils
 
-import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
-import com.dicoding.storyapp.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream

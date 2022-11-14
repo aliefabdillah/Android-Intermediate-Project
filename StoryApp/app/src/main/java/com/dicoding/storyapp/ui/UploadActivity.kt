@@ -1,6 +1,5 @@
 package com.dicoding.storyapp.ui
 
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,33 +15,27 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
-import com.dicoding.storyapp.data.local.UserPreference
+import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.databinding.ActivityUploadBinding
 import com.dicoding.storyapp.models.DbViewModel
-import com.dicoding.storyapp.models.DbViewModelFactory
-import com.dicoding.storyapp.models.UploadViewModel
+import com.dicoding.storyapp.models.MainViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 import com.dicoding.storyapp.utils.createCustomTempFile
 import com.dicoding.storyapp.utils.uriToFile
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class UploadActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadBinding
-    private lateinit var uploadViewModel: UploadViewModel
-
+    private val uploadViewModel: MainViewModel by viewModels { ViewModelFactory.getInstance(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
@@ -57,8 +50,6 @@ class UploadActivity : AppCompatActivity() {
                 REQUEST_CODE_PERMISSIONS
             )
         }
-
-        setupViewmodel()
 
         binding.cameraBtn.setOnClickListener{ startTakePhoto() }
         binding.galleryBtn.setOnClickListener { startGallery() }
@@ -87,15 +78,8 @@ class UploadActivity : AppCompatActivity() {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun setupViewmodel() {
-        uploadViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
-        )[UploadViewModel::class.java]
-    }
-
     private fun uploadStory() {
-        val viewModelFactory: DbViewModelFactory = DbViewModelFactory.getInstance(this)
+        val viewModelFactory: ViewModelFactory = ViewModelFactory.getInstance(this)
         val dbViewModel: DbViewModel by viewModels {
             viewModelFactory
         }
@@ -113,6 +97,9 @@ class UploadActivity : AppCompatActivity() {
             dbViewModel.deleteAllData()
 
             uploadViewModel.getUser().observe(this){ dataStore ->
+                uploadCallback(dataStore.token, imageMultipart, desc)
+            }
+/*            uploadViewModel.getUser().observe(this){ dataStore ->
                 uploadViewModel.uploadStory(dataStore.token, imageMultipart, desc)
             }
 
@@ -135,9 +122,30 @@ class UploadActivity : AppCompatActivity() {
                         finish()
                     }
                 }
-            }
+            }*/
         }else{
             Toast.makeText(this, getString(R.string.upload_image_error), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun uploadCallback(token: String, imageMultipart: MultipartBody.Part, desc: RequestBody) {
+        uploadViewModel.uploadStory(token, imageMultipart, desc).observe(this){ result ->
+            if (result != null){
+                when (result){
+                    is Result.Loading -> binding.loadingIcon.visibility = View.VISIBLE
+                    is Result.Success -> {
+                        binding.loadingIcon.visibility = View.GONE
+                        Toast.makeText(this, result.data.message, Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    is Result.Error -> {
+                        binding.loadingIcon.visibility = View.GONE
+                        result.error.getContentIfNotHandled()?.let { toastText ->
+                            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
         }
     }
 

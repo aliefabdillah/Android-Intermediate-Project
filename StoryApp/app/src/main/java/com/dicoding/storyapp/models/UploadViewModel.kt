@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.dicoding.storyapp.data.StoryRepository
+import com.dicoding.storyapp.data.UserRepository
 import com.dicoding.storyapp.data.api.ApiConfig
 import com.dicoding.storyapp.data.api.CallbackResponse
 import com.dicoding.storyapp.data.local.UserModel
@@ -15,9 +17,9 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
-class UploadViewModel(private val pref: UserPreference): ViewModel() {
+class UploadViewModel(private val storyRepo: StoryRepository, private val userRepository: UserRepository): ViewModel() {
 
-    private val _error = MutableLiveData<Boolean>()
+    /*private val _error = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _error
 
     private val _isLoading = MutableLiveData<Boolean>()
@@ -55,7 +57,7 @@ class UploadViewModel(private val pref: UserPreference): ViewModel() {
 
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
-    }
+    }*/
 
     companion object{
         private const val TAG = "UploadViewModel"

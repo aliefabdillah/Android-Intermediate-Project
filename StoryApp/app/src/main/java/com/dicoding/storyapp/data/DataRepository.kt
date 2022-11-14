@@ -1,11 +1,13 @@
 package com.dicoding.storyapp.data
 
 import androidx.lifecycle.LiveData
+import com.dicoding.storyapp.data.api.ApiService
 import com.dicoding.storyapp.data.local.StoriesDao
 import com.dicoding.storyapp.data.local.StoryEntity
+import com.dicoding.storyapp.data.local.UserPreference
 
 class DataRepository private constructor(
-    private val storiesDao: StoriesDao
+    private val storiesDao: StoriesDao,
 ){
     fun getUser(): LiveData<List<StoryEntity>> {
         return storiesDao.getUser()
@@ -19,13 +21,12 @@ class DataRepository private constructor(
         storiesDao.deleteAllStory()
     }
 
-
     companion object {
 
         @Volatile
         private var instance: DataRepository? = null
         fun getInstance(
-            storiesDao: StoriesDao
+            storiesDao: StoriesDao,
         ): DataRepository =
             instance ?: synchronized(this){
                 instance ?: DataRepository(storiesDao)

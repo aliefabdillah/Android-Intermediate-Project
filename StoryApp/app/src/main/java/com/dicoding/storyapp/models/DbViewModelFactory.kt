@@ -22,7 +22,7 @@ class DbViewModelFactory(private val storyRepository: DataRepository): ViewModel
         private var instance: DbViewModelFactory? = null
         fun getInstance(context: Context): DbViewModelFactory =
             instance ?: synchronized(this){
-                instance ?: DbViewModelFactory(Injection.provideRepository(context))
+                instance ?: DbViewModelFactory(Injection.provideDataRepository(context))
             }.also { instance = it }
     }
 }

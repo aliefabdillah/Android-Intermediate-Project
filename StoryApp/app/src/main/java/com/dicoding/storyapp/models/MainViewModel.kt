@@ -1,22 +1,38 @@
 package com.dicoding.storyapp.models
 
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.*
-import com.dicoding.storyapp.R
-import com.dicoding.storyapp.data.api.ApiConfig
-import com.dicoding.storyapp.data.api.DetailStoriesResponse
-import com.dicoding.storyapp.data.api.ListStoryItem
-import com.dicoding.storyapp.data.api.StoriesResponse
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.dicoding.storyapp.data.StoryRepository
+import com.dicoding.storyapp.data.UserRepository
 import com.dicoding.storyapp.data.local.UserModel
-import com.dicoding.storyapp.data.local.UserPreference
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Response
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
-class MainViewModel(private val pref: UserPreference): ViewModel() {
+class MainViewModel(private val storyRepo: StoryRepository, private val userRepository: UserRepository): ViewModel() {
 
-    private val context = Application()
+    fun getListStories(token: String) = storyRepo.getListStories(token)
+
+    fun getDetailStory(token: String, id: String) = storyRepo.getDetailStory(token, id)
+
+    fun uploadStory(
+        token: String, imageMultipart: MultipartBody.Part, desc: RequestBody
+    ) = storyRepo.uploadStory(token, imageMultipart, desc)
+
+
+    fun getUser(): LiveData<UserModel> {
+        return userRepository.getUser().asLiveData()
+    }
+
+    fun logout(){
+        viewModelScope.launch {
+            userRepository.logout()
+        }
+    }
+
+    /*private val context = Application()
 
     private val _storiesData = MutableLiveData<List<ListStoryItem>>()
     val storiesData: LiveData<List<ListStoryItem>> = _storiesData
@@ -95,9 +111,6 @@ class MainViewModel(private val pref: UserPreference): ViewModel() {
         viewModelScope.launch {
             pref.logout()
         }
-    }
+    }*/
 
-    companion object {
-        private const val TAG = "MainViewModel"
-    }
 }

@@ -8,12 +8,16 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.storyapp.R
+import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.databinding.ActivitySignUpBinding
 import com.dicoding.storyapp.models.SignUpViewModel
+import com.dicoding.storyapp.models.ViewModelFactory
 
 class SignUpActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivitySignUpBinding
-    private val signUpViewModel: SignUpViewModel by viewModels()
+    private val signUpViewModel: SignUpViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,14 +29,6 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnSignUp.setOnClickListener(this)
 
         setupAnimation()
-        signUpViewModel.isLoading.observe(this@SignUpActivity){
-            showLoading(it)
-        }
-
-        signUpViewModel.error.observe(this@SignUpActivity){ error ->
-            signUpCallback(error)
-        }
-
     }
 
     override fun onClick(v: View?) {
@@ -40,8 +36,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
             val name = binding.nameEditText.text.toString()
             val email = binding.emailEditText.text.toString()
             val pass = binding.passwordEditText.text.toString()
-            signUpViewModel.signUpUser(name, email, pass)
-            println("$name, $email, $pass")
+            signUpCallback(name, email, pass)
         }
     }
 
@@ -65,28 +60,40 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun signUpCallback(error: Boolean) {
-        if (error){
-            signUpViewModel.toastText.observe(this@SignUpActivity){
-                it.getContentIfNotHandled()?.let { toastText ->
-                    Toast.makeText(this@SignUpActivity, toastText, Toast.LENGTH_LONG).show()
+    private fun signUpCallback(name: String, email: String, pass: String) {
+        signUpViewModel.signUpUser(name, email, pass).observe(this){ result ->
+            if (result != null){
+                when(result){
+                    is Result.Loading -> {
+                        binding.loadingIcon.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding.loadingIcon.visibility = View.GONE
+                        Toast.makeText(this, result.data.message, Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                    is Result.Error -> {
+                        binding.loadingIcon.visibility = View.GONE
+                        result.error.getContentIfNotHandled()?.let { toastText ->
+                            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
-        }else{
-            signUpViewModel.toastText.observe(this@SignUpActivity){
-                it.getContentIfNotHandled()?.let { toastText ->
-                    Toast.makeText(this@SignUpActivity, toastText, Toast.LENGTH_LONG).show()
-                }
-                finish()
-            }
         }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.loadingIcon.visibility = View.VISIBLE
-        } else {
-            binding.loadingIcon.visibility = View.GONE
-        }
+//        if (error){
+//            signUpViewModel.toastText.observe(this@SignUpActivity){
+//                it.getContentIfNotHandled()?.let { toastText ->
+//                    Toast.makeText(this@SignUpActivity, toastText, Toast.LENGTH_LONG).show()
+//                }
+//            }
+//        }else{
+//            signUpViewModel.toastText.observe(this@SignUpActivity){
+//                it.getContentIfNotHandled()?.let { toastText ->
+//                    Toast.makeText(this@SignUpActivity, toastText, Toast.LENGTH_LONG).show()
+//                }
+//                finish()
+//            }
+//        }
     }
 }

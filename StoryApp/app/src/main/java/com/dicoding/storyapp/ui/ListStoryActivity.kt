@@ -1,7 +1,6 @@
 package com.dicoding.storyapp.ui
 
 import android.app.ActivityOptions
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -14,16 +13,12 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.adapter.ListStoryAdapter
+import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.data.local.StoryEntity
-import com.dicoding.storyapp.data.local.UserPreference
 import com.dicoding.storyapp.databinding.ActivityListStoryBinding
 import com.dicoding.storyapp.databinding.ItemRowStoryBinding
 import com.dicoding.storyapp.models.DbViewModel
@@ -31,12 +26,12 @@ import com.dicoding.storyapp.models.DbViewModelFactory
 import com.dicoding.storyapp.models.MainViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class ListStoryActivity : AppCompatActivity(), View.OnClickListener,
     SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: ActivityListStoryBinding
     private lateinit var itemBinding: ItemRowStoryBinding
-    private lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels { ViewModelFactory.getInstance(this) }
+    private val dbViewModel: DbViewModel by viewModels { ViewModelFactory.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +39,7 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener,
         itemBinding = ItemRowStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupViewModel()
+        setupData()
 
         binding.fabAdd.setOnClickListener(this)
         binding.swipeRefresh.setColorSchemeResources(R.color.orange_200)
@@ -58,19 +53,31 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onRefresh() {
-        setupViewModel()
+        setupData()
         Handler().postDelayed({
             binding.swipeRefresh.isRefreshing = false
         }, REFRESH_TIME)
     }
 
-    private fun setupViewModel() {
-        val viewModelFactory: DbViewModelFactory = DbViewModelFactory.getInstance(this)
-        val dbViewModel: DbViewModel by viewModels {
-            viewModelFactory
+    private fun setupData() {
+//        val viewModelFactory: DbViewModelFactory = DbViewModelFactory.getInstance(this)
+//        val dbViewModel: DbViewModel by viewModels {
+//            viewModelFactory
+//        }
+
+        mainViewModel.getUser().observe(this){ user ->
+            if (user.isLogin){
+                TOKEN = user.token
+                title = getString(R.string.welcome, user.name)
+                dbViewModel.deleteAllData()
+                getStoryCallback(user.token)
+            }else{
+                startActivity(Intent(this, SignInActivity::class.java))
+                finish()
+            }
         }
 
-        mainViewModel = ViewModelProvider(
+        /*mainViewModel = ViewModelProvider(
             this,
             ViewModelFactory(UserPreference.getInstance(dataStore))
         )[MainViewModel::class.java]
@@ -101,10 +108,36 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener,
             listStories.forEach {
                 dbViewModel.saveStoryToDb(it)
             }
-        }
+        }*/
 
         dbViewModel.getStories().observe(this){ listStories ->
             showResult(listStories)
+        }
+    }
+
+    private fun getStoryCallback(token: String) {
+        mainViewModel.getListStories(token).observe(this){ result ->
+            if (result != null){
+                when(result){
+                    is Result.Loading -> binding.loadingIcon.visibility = View.VISIBLE
+                    is Result.Success -> {
+                        if (result.data.isEmpty()){
+                            Toast.makeText(this, getString(R.string.list_story_is_empty), Toast.LENGTH_LONG).show()
+                        }else{
+                            binding.loadingIcon.visibility = View.GONE
+                            result.data.forEach {
+                                dbViewModel.saveStoryToDb(it)
+                            }
+                        }
+                    }
+                    is Result.Error -> {
+                        binding.loadingIcon.visibility = View.GONE
+                        result.error.getContentIfNotHandled()?.let { toastText ->
+                            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -134,14 +167,6 @@ class ListStoryActivity : AppCompatActivity(), View.OnClickListener,
             })
         }
 
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.loadingIcon.visibility = View.VISIBLE
-        } else {
-            binding.loadingIcon.visibility = View.GONE
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

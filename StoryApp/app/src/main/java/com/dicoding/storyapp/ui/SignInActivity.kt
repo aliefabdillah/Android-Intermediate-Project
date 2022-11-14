@@ -2,28 +2,23 @@ package com.dicoding.storyapp.ui
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
+import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.data.local.UserModel
-import com.dicoding.storyapp.data.local.UserPreference
 import com.dicoding.storyapp.databinding.ActivitySignInBinding
 import com.dicoding.storyapp.models.LoginViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class SignInActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivitySignInBinding
-    private lateinit var loginViewModel: LoginViewModel
+    private val loginViewModel: LoginViewModel by viewModels { ViewModelFactory.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +31,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnSignIn.setOnClickListener(this)
 
         setupAnimation()
-        setupViewModel()
     }
 
     override fun onClick(v: View?) {
@@ -48,28 +42,60 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btnSignIn -> {
                 val email = binding.emailEditText.text.toString()
                 val password = binding.passwordEditText.text.toString()
-                loginViewModel.signInUser(email, password)
+                signInCallback(email, password)
             }
         }
     }
 
     private fun setupViewModel() {
-        loginViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
-        )[LoginViewModel::class.java]
-
-        loginViewModel.isLoading.observe(this@SignInActivity){
-            showLoading(it)
-        }
-
-        loginViewModel.error.observe(this@SignInActivity){ error ->
-            signInCallback(error)
-        }
+//        loginViewModel = ViewModelProvider(
+//            this,
+//            ViewModelFactory(UserPreference.getInstance(dataStore))
+//        )[LoginViewModel::class.java]
+//
+//        loginViewModel.isLoading.observe(this@SignInActivity){
+//            showLoading(it)
+//        }
+//
+//        loginViewModel.error.observe(this@SignInActivity){ error ->
+//            signInCallback(error)
+//        }
     }
 
-    private fun signInCallback(error: Boolean){
-        if (error){
+    private fun signInCallback(email: String, password: String){
+        loginViewModel.signInUser(email, password).observe(this){ result ->
+            if (result != null){
+                when(result){
+                    is Result.Loading -> {
+                        binding.loadingIcon.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding.loadingIcon.visibility = View.GONE
+                        val userName = result.data.name
+                        val userToken = result.data.token
+                        loginViewModel.saveUser(UserModel(userName, userToken, true))
+                        AlertDialog.Builder(this).apply {
+                            setMessage(getString(R.string.successfully_login_message))
+                            setPositiveButton(getString(R.string.next)) { _, _ ->
+                                val intent = Intent(context, ListStoryActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
+                                finish()
+                            }
+                            create()
+                            show()
+                        }
+                    }
+                    is Result.Error -> {
+                        binding.loadingIcon.visibility = View.GONE
+                        result.error.getContentIfNotHandled()?.let {
+                            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+        }
+/*        if (error){
             loginViewModel.toastText.observe(this@SignInActivity){
                 it.getContentIfNotHandled()?.let { toastText ->
                     Toast.makeText(this@SignInActivity, toastText, Toast.LENGTH_SHORT).show()
@@ -92,7 +118,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                     show()
                 }
             }
-        }
+        }*/
     }
 
     private fun setupAnimation() {
@@ -112,15 +138,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     private fun setOtherViewAnimation(view: View): ObjectAnimator {
         return ObjectAnimator.ofFloat(view, View.ALPHA, 1f).apply {
             duration = 500
-        }
-    }
-
-
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.loadingIcon.visibility = View.VISIBLE
-        } else {
-            binding.loadingIcon.visibility = View.GONE
         }
     }
 }
