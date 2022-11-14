@@ -23,7 +23,7 @@ class SplashScreenActivity : AppCompatActivity() {
         binding.storyAppLogo.animate().setDuration(3000).alpha(1f).withEndAction{
             viewModel.getUser().observe(this){ user ->
                 if (user.isLogin){
-                    startActivity(Intent(this, ListStoryActivity::class.java))
+                    startActivity(Intent(this, StoryActivity::class.java))
                 }else{
                     val i = Intent(this@SplashScreenActivity, SignInActivity::class.java)
                     startActivity(i)

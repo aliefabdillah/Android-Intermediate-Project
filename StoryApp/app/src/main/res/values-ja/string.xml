@@ -39,4 +39,6 @@
     <string name="photo">写真</string>
     <string name="language">言語</string>
     <string name="error_get_detail_story">ストーリー データの取得に失敗しました</string>
+    <string name="list">リスト</string>
+    <string name="map">地図</string>
 </resources>

@@ -35,7 +35,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.ListStoryActivity"
+            android:name=".ui.StoryActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

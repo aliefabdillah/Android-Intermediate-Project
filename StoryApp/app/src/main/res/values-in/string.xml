@@ -39,4 +39,6 @@
     <string name="photo">foto</string>
     <string name="language">Bahasa</string>
     <string name="error_get_detail_story">Gagal mengambil data cerita</string>
+    <string name="list">Daftar</string>
+    <string name="map">Peta</string>
 </resources>

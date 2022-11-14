@@ -39,4 +39,6 @@
     <string name="photo">photo</string>
     <string name="language">Language</string>
     <string name="error_get_detail_story">Failed to get story</string>
+    <string name="list">List</string>
+    <string name="map">Map</string>
 </resources>

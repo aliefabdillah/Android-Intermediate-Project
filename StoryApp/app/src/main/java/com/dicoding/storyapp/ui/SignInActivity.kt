@@ -77,7 +77,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                         AlertDialog.Builder(this).apply {
                             setMessage(getString(R.string.successfully_login_message))
                             setPositiveButton(getString(R.string.next)) { _, _ ->
-                                val intent = Intent(context, ListStoryActivity::class.java)
+                                val intent = Intent(context, StoryActivity::class.java)
                                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                 startActivity(intent)
                                 finish()

@@ -39,4 +39,6 @@
     <string name="photo">poto</string>
     <string name="language">Basa</string>
     <string name="error_get_detail_story">Gagal nyandak data carita</string>
+    <string name="list">Daptar</string>
+    <string name="map">Peta</string>
 </resources>
