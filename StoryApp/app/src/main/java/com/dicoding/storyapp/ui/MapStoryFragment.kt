@@ -1,6 +1,8 @@
 package com.dicoding.storyapp.ui
 
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapStoryFragment : Fragment(), OnMapReadyCallback {
@@ -98,6 +101,20 @@ class MapStoryFragment : Fragment(), OnMapReadyCallback {
         gMap.uiSettings.isIndoorLevelPickerEnabled = true
         gMap.uiSettings.isCompassEnabled = true
         gMap.uiSettings.isMapToolbarEnabled = true
+
+        setMapStyle()
+    }
+
+    private fun setMapStyle() {
+        try{
+            val success = gMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireActivity(), R.raw.map_style))
+
+            if(!success) {
+                Log.e(TAG, "Style Parsing Failed")
+            }
+        }catch(exception: Resources.NotFoundException) {
+            Log.e(TAG, "Can't find style. Error: ", exception)
+        }
     }
 
     companion object{
