@@ -21,7 +21,8 @@
             android:textColor="?attr/colorOnSecondary"
             android:text="@string/list_story_is_empty"
             android:textStyle="italic"
-            android:alpha="0"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:layout_marginTop="16dp"
             />
 
@@ -35,6 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:listitem="@layout/item_row_story"
             />
+
 
         <ProgressBar
             android:id="@+id/loadingIcon"

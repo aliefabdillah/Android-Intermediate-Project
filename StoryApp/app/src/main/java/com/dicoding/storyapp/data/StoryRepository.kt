@@ -3,8 +3,11 @@ package com.dicoding.storyapp.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.dicoding.storyapp.data.api.*
-import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.utils.EventHandlerToast
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -19,7 +22,7 @@ class StoryRepository private constructor(
     private val getDetailResult = MediatorLiveData<Result<ListStoryItem>>()
     private val uploadResult = MediatorLiveData<Result<CallbackResponse>>()
 
-    fun getListStories(token: String, location: Int = 0, size: Int = 20): LiveData<Result<List<ListStoryItem>>>{
+    fun getListStoriesLocation(token: String, location: Int, size: Int = 10): LiveData<Result<List<ListStoryItem>>>{
         getListResult.value = Result.Loading
         val client = apiService.getStories(size, location, "Bearer $token")
 
@@ -52,6 +55,13 @@ class StoryRepository private constructor(
         })
 
         return getListResult
+    }
+
+    fun getStoryPaging(token: String): LiveData<PagingData<ListStoryItem>> {
+        return Pager(
+            config = PagingConfig(pageSize = 5),
+            pagingSourceFactory = { StoryPagingSource(apiService, token) }
+        ).liveData
     }
 
     fun getDetailStory(token: String, id: String): LiveData<Result<ListStoryItem>>{

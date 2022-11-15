@@ -9,7 +9,7 @@ import com.dicoding.storyapp.data.local.UserModel
 
 class MapsViewModel(private val storyRepo: StoryRepository, private val userRepository: UserRepository): ViewModel() {
 
-    fun getListStoriesWithLocation(token: String, location: Int) = storyRepo.getListStories(token, location, 5)
+    fun getListStoriesWithLocation(token: String, location: Int) = storyRepo.getListStoriesLocation(token, location)
 
     fun getUser(): LiveData<UserModel> {
         return userRepository.getUser().asLiveData()

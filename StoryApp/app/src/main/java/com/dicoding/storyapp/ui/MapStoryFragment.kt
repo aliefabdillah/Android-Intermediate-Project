@@ -1,15 +1,12 @@
 package com.dicoding.storyapp.ui
 
-import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.data.local.StoryEntity
@@ -17,17 +14,14 @@ import com.dicoding.storyapp.databinding.FragmentMapStoryBinding
 import com.dicoding.storyapp.models.DbViewModel
 import com.dicoding.storyapp.models.MapsViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-import java.io.IOException
-import java.util.*
 
-class MapStoryFragment : Fragment(), OnMapReadyCallback, SwipeRefreshLayout.OnRefreshListener {
+class MapStoryFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentMapStoryBinding
     private lateinit var gMap: GoogleMap
     private val boundsBuilder = LatLngBounds.Builder()
@@ -104,10 +98,6 @@ class MapStoryFragment : Fragment(), OnMapReadyCallback, SwipeRefreshLayout.OnRe
         gMap.uiSettings.isIndoorLevelPickerEnabled = true
         gMap.uiSettings.isCompassEnabled = true
         gMap.uiSettings.isMapToolbarEnabled = true
-    }
-
-    override fun onRefresh() {
-        TODO("Not yet implemented")
     }
 
     companion object{

@@ -9,19 +9,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.paging.PagingSource
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.adapter.ListStoryAdapter
+import com.dicoding.storyapp.adapter.LoadingStateAdapter
+import com.dicoding.storyapp.adapter.PagingStoryAdapter
 import com.dicoding.storyapp.data.Result
+import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.local.StoryEntity
 import com.dicoding.storyapp.databinding.FragmentListStoryBinding
 import com.dicoding.storyapp.databinding.ItemRowStoryBinding
 import com.dicoding.storyapp.models.DbViewModel
 import com.dicoding.storyapp.models.MainViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
+import com.dicoding.storyapp.ui.MapStoryFragment.Companion.TOKEN
+import kotlinx.coroutines.launch
 
 class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: FragmentListStoryBinding
@@ -46,25 +56,76 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         binding.swipeRefresh.setColorSchemeResources(R.color.orange_200)
         binding.swipeRefresh.setOnRefreshListener(this)
+        binding.rvStory.layoutManager = LinearLayoutManager(requireActivity())
 
         token = arguments?.getString(TOKEN)!!
-        dbViewModel.deleteAllData()
-        getStoryCallback(token)
-
-        dbViewModel.getStories().observe(viewLifecycleOwner){ listStories ->
-            showResult(listStories)
-        }
+        getStoryPagingCallback(token)
+//        dbViewModel.deleteAllData()
+//        getStoryCallback(token)
+//
+//        dbViewModel.getStories().observe(viewLifecycleOwner){ listStories ->
+//            showResult(listStories)
+//        }
     }
 
     override fun onRefresh() {
-        dbViewModel.deleteAllData()
-        getStoryCallback(token)
+//        dbViewModel.deleteAllData()
+        getStoryPagingCallback(token)
+//        getStoryCallback(token)
         Handler().postDelayed({
             binding.swipeRefresh.isRefreshing = false
         }, REFRESH_TIME)
     }
 
-    private fun getStoryCallback(token: String) {
+    private fun getStoryPagingCallback(token: String){
+
+        val adapter = PagingStoryAdapter()
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter  {
+                adapter.retry()
+            }
+        )
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            listStoryViewModel.getStoryPaging(token).observe(viewLifecycleOwner){
+                adapter.submitData(lifecycle, it)
+            }
+        }
+
+        adapter.addLoadStateListener { loadState ->
+            when(loadState.source.refresh){
+                is LoadState.Loading -> { binding.loadingIcon.visibility = View.VISIBLE }
+                is LoadState.NotLoading -> {
+                    binding.loadingIcon.visibility = View.GONE
+                    if (loadState.append.endOfPaginationReached && adapter.itemCount < 1){
+                        binding.tvEmptyListStory.isVisible = true
+                    }
+                    else{
+                        binding.tvEmptyListStory.isVisible = false
+                        adapter.setOnItemClickCallback(object : PagingStoryAdapter.OnItemClickCallback{
+                            override fun onItemClicked(data: ListStoryItem) {
+                                val iToDetail = Intent(requireActivity(), DetailStoryActivity::class.java)
+                                iToDetail.putExtra("ID", data.id)
+                                iToDetail.putExtra("TOKEN", token)
+                                val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity(),
+                                    Pair(itemBinding.imgItem, "storyImage"),
+                                    Pair(itemBinding.tvUsername, "username")
+                                )
+                                startActivity(iToDetail, options.toBundle())
+                            }
+                        })
+
+                    }
+                }
+                is LoadState.Error -> {
+                    binding.loadingIcon.visibility = View.GONE
+                    Toast.makeText(requireActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    /*private fun getStoryCallback(token: String) {
         listStoryViewModel.getListStories(token).observe(viewLifecycleOwner){ result ->
             if (result != null){
                 when(result){
@@ -88,7 +149,7 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 }
             }
         }
-    }
+    }*/
 
     private fun showResult(listStories: List<StoryEntity>) {
         val layoutManager = LinearLayoutManager(requireActivity())
@@ -121,6 +182,5 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     companion object{
         var TOKEN = ""
         const val REFRESH_TIME = 2000L
-        const val TAG = "ListStoryFragment"
     }
 }
