@@ -9,20 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.paging.PagingSource
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.adapter.ListStoryAdapter
 import com.dicoding.storyapp.adapter.LoadingStateAdapter
 import com.dicoding.storyapp.adapter.PagingStoryAdapter
-import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.local.StoryEntity
 import com.dicoding.storyapp.databinding.FragmentListStoryBinding
@@ -30,7 +27,6 @@ import com.dicoding.storyapp.databinding.ItemRowStoryBinding
 import com.dicoding.storyapp.models.DbViewModel
 import com.dicoding.storyapp.models.MainViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
-import com.dicoding.storyapp.ui.MapStoryFragment.Companion.TOKEN
 import kotlinx.coroutines.launch
 
 class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -38,7 +34,6 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var itemBinding: ItemRowStoryBinding
 
     private val listStoryViewModel: MainViewModel by viewModels { ViewModelFactory.getInstance(requireActivity()) }
-    private val dbViewModel: DbViewModel by viewModels { ViewModelFactory.getInstance(requireActivity()) }
     private lateinit var token: String
 
     override fun onCreateView(
@@ -60,18 +55,10 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         token = arguments?.getString(TOKEN)!!
         getStoryPagingCallback(token)
-//        dbViewModel.deleteAllData()
-//        getStoryCallback(token)
-//
-//        dbViewModel.getStories().observe(viewLifecycleOwner){ listStories ->
-//            showResult(listStories)
-//        }
     }
 
     override fun onRefresh() {
-//        dbViewModel.deleteAllData()
         getStoryPagingCallback(token)
-//        getStoryCallback(token)
         Handler().postDelayed({
             binding.swipeRefresh.isRefreshing = false
         }, REFRESH_TIME)
@@ -94,7 +81,9 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         adapter.addLoadStateListener { loadState ->
             when(loadState.source.refresh){
-                is LoadState.Loading -> { binding.loadingIcon.visibility = View.VISIBLE }
+                is LoadState.Loading -> {
+                    binding.loadingIcon.visibility = View.VISIBLE
+                }
                 is LoadState.NotLoading -> {
                     binding.loadingIcon.visibility = View.GONE
                     if (loadState.append.endOfPaginationReached && adapter.itemCount < 1){
@@ -118,8 +107,7 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     }
                 }
                 is LoadState.Error -> {
-                    binding.loadingIcon.visibility = View.GONE
-                    Toast.makeText(requireActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), getString(R.string.no_internet_connetion), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -151,7 +139,7 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
     }*/
 
-    private fun showResult(listStories: List<StoryEntity>) {
+    /*private fun showResult(listStories: List<StoryEntity>) {
         val layoutManager = LinearLayoutManager(requireActivity())
         binding.rvStory.layoutManager = layoutManager
 
@@ -177,7 +165,7 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             })
         }
 
-    }
+    }*/
 
     companion object{
         var TOKEN = ""

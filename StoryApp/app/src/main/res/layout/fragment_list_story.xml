@@ -8,6 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.ListStoryFragment">
 
+
     <FrameLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listStoryFragment">
@@ -49,4 +50,5 @@
             tools:visibility="visible"/>
 
     </FrameLayout>
+
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

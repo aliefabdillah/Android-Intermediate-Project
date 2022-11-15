@@ -129,7 +129,7 @@ class UploadActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(
                         this,
-                        "Location is not found. Try Again",
+                        getString(R.string.location_not_found),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

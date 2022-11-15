@@ -41,4 +41,7 @@
     <string name="error_get_detail_story">ストーリー データの取得に失敗しました</string>
     <string name="list">リスト</string>
     <string name="map">地図</string>
+    <string name="location_not_found">場所が見つかりません。もう一度お試しください。</string>
+    <string name="no_internet_connetion">インターネット回線なし！</string>
+    <string name="try_again">再試行！</string>
 </resources>

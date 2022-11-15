@@ -1,24 +1,14 @@
 package com.dicoding.storyapp.data
 
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.paging.LoadState
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.dicoding.storyapp.data.api.ApiService
 import com.dicoding.storyapp.data.api.ListStoryItem
-import com.dicoding.storyapp.data.api.StoriesResponse
-import retrofit2.Call
 import retrofit2.HttpException
-import retrofit2.Response
 
 class StoryPagingSource(private val apiService: ApiService, private val token: String): PagingSource<Int, ListStoryItem>() {
 
     private lateinit var listStory : List<ListStoryItem>
-    private lateinit var context: Context
 
     override fun getRefreshKey(state: PagingState<Int, ListStoryItem>): Int? {
         return state.anchorPosition?.let { anchorPosition ->

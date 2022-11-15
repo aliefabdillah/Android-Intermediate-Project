@@ -146,13 +146,5 @@ class StoryActivity : AppCompatActivity(), View.OnClickListener, BottomNavigatio
         return true
     }
 
-    companion object{
-        private var TOKEN = ""
-
-        @StringRes
-        private val TAB_TITLES = intArrayOf(
-            R.string.list,
-            R.string.map
-        )
-    }
+    companion object
 }

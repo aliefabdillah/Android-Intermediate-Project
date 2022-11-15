@@ -22,6 +22,5 @@ class UploadViewModel(private val storyRepo: StoryRepository, private val userRe
     }
 
     companion object{
-        private const val TAG = "UploadViewModel"
     }
 }

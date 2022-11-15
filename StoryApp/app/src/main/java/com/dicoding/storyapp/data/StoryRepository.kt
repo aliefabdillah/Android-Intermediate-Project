@@ -22,9 +22,9 @@ class StoryRepository private constructor(
     private val getDetailResult = MediatorLiveData<Result<ListStoryItem>>()
     private val uploadResult = MediatorLiveData<Result<CallbackResponse>>()
 
-    fun getListStoriesLocation(token: String, location: Int, size: Int = 10): LiveData<Result<List<ListStoryItem>>>{
+    fun getListStoriesLocation(token: String, location: Int): LiveData<Result<List<ListStoryItem>>>{
         getListResult.value = Result.Loading
-        val client = apiService.getStories(size, location, "Bearer $token")
+        val client = apiService.getStories(PAGE_SIZE, location, "Bearer $token")
 
         client.enqueue(object: retrofit2.Callback<StoriesResponse>{
             override fun onResponse(
@@ -140,6 +140,7 @@ class StoryRepository private constructor(
 
     companion object {
         private const val TAG = "MainViewModel"
+        private const val PAGE_SIZE = 30
 
         @Volatile
         private var instance: StoryRepository? = null
