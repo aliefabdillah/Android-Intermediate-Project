@@ -14,7 +14,7 @@ import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.data.local.UserModel
 import com.dicoding.storyapp.databinding.ActivitySignInBinding
 import com.dicoding.storyapp.models.LoginViewModel
-import com.dicoding.storyapp.models.ViewModelFactory
+import com.dicoding.storyapp.modelsfactory.ViewModelFactory
 
 class SignInActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivitySignInBinding

@@ -50,8 +50,8 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `when get list story should not null and Return Success`() = runTest{
-        val dummyListStory = DataDummy.generateDummyListStoryWithLocation()
+    fun `when get paging list story should not null and Return Success`() = runTest{
+        val dummyListStory = DataDummy.generateDummyListStory()
         val data: PagingData<ListStoryItem> = StoryPagingSource.snapshot(dummyListStory.listStory)
         val expectedList =  MutableLiveData<PagingData<ListStoryItem>>()
         expectedList.value = data
@@ -108,7 +108,7 @@ class MainViewModelTest {
         }
     }
 
-    val noopListUpdateCallback = object : ListUpdateCallback {
+    private val noopListUpdateCallback = object : ListUpdateCallback {
         override fun onInserted(position: Int, count: Int) {}
         override fun onRemoved(position: Int, count: Int) {}
         override fun onMoved(fromPosition: Int, toPosition: Int) {}

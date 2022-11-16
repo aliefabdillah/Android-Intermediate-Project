@@ -13,9 +13,9 @@ import com.dicoding.storyapp.R
 import com.dicoding.storyapp.databinding.ActivityListStoryBinding
 import com.dicoding.storyapp.databinding.ItemRowStoryBinding
 import com.dicoding.storyapp.models.DbViewModel
-import com.dicoding.storyapp.models.DbViewModelFactory
+import com.dicoding.storyapp.modelsfactory.DbViewModelFactory
 import com.dicoding.storyapp.models.MainViewModel
-import com.dicoding.storyapp.models.ViewModelFactory
+import com.dicoding.storyapp.modelsfactory.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class StoryActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {

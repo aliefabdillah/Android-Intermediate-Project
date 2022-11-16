@@ -11,7 +11,7 @@ import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.databinding.ActivityDetailStoryBinding
 import com.dicoding.storyapp.models.DetailViewModel
-import com.dicoding.storyapp.models.ViewModelFactory
+import com.dicoding.storyapp.modelsfactory.ViewModelFactory
 
 class DetailStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailStoryBinding

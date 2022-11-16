@@ -1,9 +1,10 @@
-package com.dicoding.storyapp.models
+package com.dicoding.storyapp.modelsfactory
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.data.repository.DataRepository
+import com.dicoding.storyapp.models.DbViewModel
 import com.dicoding.storyapp.utils.Injection
 
 class DbViewModelFactory(private val storyRepository: DataRepository): ViewModelProvider.NewInstanceFactory() {

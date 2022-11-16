@@ -16,7 +16,7 @@ import com.dicoding.storyapp.data.local.StoryEntity
 import com.dicoding.storyapp.databinding.FragmentMapStoryBinding
 import com.dicoding.storyapp.models.DbViewModel
 import com.dicoding.storyapp.models.MapsViewModel
-import com.dicoding.storyapp.models.ViewModelFactory
+import com.dicoding.storyapp.modelsfactory.ViewModelFactory
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback

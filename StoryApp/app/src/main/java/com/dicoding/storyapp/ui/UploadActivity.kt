@@ -24,7 +24,7 @@ import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.databinding.ActivityUploadBinding
 import com.dicoding.storyapp.models.DbViewModel
 import com.dicoding.storyapp.models.UploadViewModel
-import com.dicoding.storyapp.models.ViewModelFactory
+import com.dicoding.storyapp.modelsfactory.ViewModelFactory
 import com.dicoding.storyapp.utils.createCustomTempFile
 import com.dicoding.storyapp.utils.uriToFile
 import com.google.android.gms.location.FusedLocationProviderClient

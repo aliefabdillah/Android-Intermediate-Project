@@ -1,4 +1,4 @@
-package com.dicoding.storyapp.models
+package com.dicoding.storyapp.modelsfactory
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.data.repository.DataRepository
 import com.dicoding.storyapp.data.repository.StoryRepository
 import com.dicoding.storyapp.data.repository.UserRepository
+import com.dicoding.storyapp.models.*
 import com.dicoding.storyapp.utils.Injection
 
 class ViewModelFactory(

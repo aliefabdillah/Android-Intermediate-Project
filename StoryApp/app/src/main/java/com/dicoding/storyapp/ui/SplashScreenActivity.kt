@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.storyapp.databinding.ActivitySplashScreenBinding
 import com.dicoding.storyapp.models.MainViewModel
-import com.dicoding.storyapp.models.ViewModelFactory
+import com.dicoding.storyapp.modelsfactory.ViewModelFactory
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {

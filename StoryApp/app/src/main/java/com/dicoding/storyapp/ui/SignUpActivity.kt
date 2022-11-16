@@ -11,7 +11,7 @@ import com.dicoding.storyapp.R
 import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.databinding.ActivitySignUpBinding
 import com.dicoding.storyapp.models.SignUpViewModel
-import com.dicoding.storyapp.models.ViewModelFactory
+import com.dicoding.storyapp.modelsfactory.ViewModelFactory
 
 class SignUpActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivitySignUpBinding
