@@ -10,7 +10,7 @@ import androidx.room.Query
 interface StoriesDao {
 
     @Query("SELECT * FROM usersStory")
-    fun getUser(): LiveData<List<StoryEntity>>
+    fun getStories(): LiveData<List<StoryEntity>>
 
     //query dengan coroutine
     @Insert(onConflict = OnConflictStrategy.IGNORE)

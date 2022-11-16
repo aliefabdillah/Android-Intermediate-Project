@@ -25,7 +25,7 @@ class ViewModelFactory(
                 DetailViewModel(storyRepository) as T
             }
             modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
-                MapsViewModel(storyRepository, userRepository) as T
+                MapsViewModel(storyRepository) as T
             }
             modelClass.isAssignableFrom(UploadViewModel::class.java) -> {
                 UploadViewModel(storyRepository, userRepository) as T

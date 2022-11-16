@@ -7,28 +7,19 @@ import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.local.StoryEntity
 import kotlinx.coroutines.launch
 
-class DbViewModel( private val storyRepository: DataRepository): ViewModel() {
-    fun getStories() = storyRepository.getUser()
+class DbViewModel( private val dataRepository: DataRepository): ViewModel() {
+    fun getStories() = dataRepository.getStories()
 
     fun saveStoryToDb(listStoryItem: ListStoryItem){
 
-        val listStory = StoryEntity(
-            listStoryItem.id,
-            listStoryItem.photoUrl,
-            listStoryItem.name,
-            listStoryItem.description,
-            listStoryItem.lon,
-            listStoryItem.lat
-        )
-
         viewModelScope.launch {
-            storyRepository.insertStory(listStory)
+            dataRepository.insertStory(listStoryItem)
         }
     }
 
     fun deleteAllData(){
         viewModelScope.launch {
-            storyRepository.deleteStory()
+            dataRepository.deleteStory()
         }
     }
 }

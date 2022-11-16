@@ -1,0 +1,75 @@
+1. MainViewModel
+    a. ketika berhasil mengambil list data story
+        - memastikan data yang diambil tidak null
+        - memastikan jumlah data sesuai dengan yang diharapkan
+        - memastikan data yang diambil menggunakan paging didapatkan dengan benar
+    b.  ketika berhasil mengambil data akun ketika sudah login
+        - memastikan method getUser di repository terpanggil
+        - memastikan data user yang diambil tidak null
+        - memastikan data user yang diambil dari datastore sesuai
+    c. ketika ingin keluar dari akun dan menghapus data akun
+        - memastikan method menghapus akun di repository terpanggil
+
+2. DetailViewModel
+    a. ketika berhasil mengambil detail data story
+        - memastikan method getDetailStory pada repository dipanggil
+        - memastikan data yang diambil tidak null
+        - memastikan mengembalikan Result.Success
+        - memastikan data detail sudah sesuai
+    b. ketika gagal mendapatkan data detail story
+        - memastikan data yang diambil tidak bernilai null
+        - memastikan mengembalikan Result.Error
+
+3. MapsViewModel
+    a. ketika berhasil mengambil data list story dengan location
+        - memastikan method getListStoryWithLocation pada repository dipanggil
+        - memastikan data yang diambil tidak null
+        - memastikan mengembalikan Result.Success
+        - memastikan jumlah data yang diambil sesuai yang diharapkan
+    c. ketika gagal memuat data list story dengan location
+        - memastikan data diambil tidak bernilai null
+        - memastikan mengembalikan Result.Error
+
+4. UploadViewModel
+    a. ketika user berhasil mengupload story
+        - memastikan method uploadStories di repository terpanggil
+        - memastikan response tidak null
+        - memastikan response mengembalikan Result.Success
+    b. ketika user gagal mengupload story
+        - memastikan method uploadStories di repository terpanggil
+        - memastikan response tidak null
+        - memastikan respone mengembalikan Result.Error
+    c. ketika berhasil mengambil data akun yang sudah login
+        - memastikan method getUser di repository terpanggil
+        - memastikan data yang diambil tidak null
+        - memastikan data yang diambil dari datastore sesuai
+
+5. DbViewModel
+    a. ketika berhasil mengambil data story dari database
+        - memastikan data yang diambil tidak null
+        - memastikan jumlah data yang diambil sesuai
+    b. ketika ingin memasukan data dari api ke database
+        - memastikan method insert data di repository terpanggil
+    c. ketika ingin menghapus seluruh data dari database
+        - memastikan method menghapus seluruh data di repository terpanggil
+
+6. SignUpViewModel
+    a. ketika user berhasil mendaftarkan akun
+        - memastikan method signUpUser di repository terpanggil
+        - memastikan kembalian response yang didapat tidak null
+        - memastikan mengembalikan Result.Success
+    b. ketika user gagal mendaftarkan akun
+        - memastikan method signUpUser di repository terpanggil
+        - memastikan kembalian response yang didapat tidak null
+        - memastikan mengembalikan Result.Error
+
+7. LoginViewmodel
+    a. ketika user berhasil login ke dalam aplikasi
+        - memastikan method signInUser di repository terpanggil
+        - memastikan kembalian response yang didapat tidak null
+        - memastikan mengembalikan Result.Success
+    b. ketika user gagal login ke dalam aplikasi
+        - memastikan kembalian response yang didapat tidak null
+        - memastikan mengembalikan Result.Error
+    c. ketika ingin menyimpan data user ke datastore
+        - memastikan method menyimapn data user di repository terpanggil

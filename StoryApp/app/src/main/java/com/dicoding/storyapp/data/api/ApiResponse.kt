@@ -60,6 +60,8 @@ data class DetailStoriesResponse(
 )
 
 data class ListStoryItem(
+	@field:SerializedName("id")
+	val id: String,
 
 	@field:SerializedName("photoUrl")
 	val photoUrl: String,
@@ -74,12 +76,9 @@ data class ListStoryItem(
 	val description: String,
 
 	@field:SerializedName("lon")
-	val lon: Double,
-
-	@field:SerializedName("id")
-	val id: String,
+	val lon: Double?,
 
 	@field:SerializedName("lat")
-	val lat: Double
+	val lat: Double?
 )
 

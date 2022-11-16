@@ -20,7 +20,4 @@ class UploadViewModel(private val storyRepo: StoryRepository, private val userRe
     fun getUser(): LiveData<UserModel> {
         return userRepository.getUser().asLiveData()
     }
-
-    companion object{
-    }
 }

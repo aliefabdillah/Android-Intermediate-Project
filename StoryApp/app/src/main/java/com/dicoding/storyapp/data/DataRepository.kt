@@ -1,19 +1,28 @@
 package com.dicoding.storyapp.data
 
 import androidx.lifecycle.LiveData
-import com.dicoding.storyapp.data.api.ApiService
+import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.local.StoriesDao
 import com.dicoding.storyapp.data.local.StoryEntity
-import com.dicoding.storyapp.data.local.UserPreference
 
 class DataRepository private constructor(
     private val storiesDao: StoriesDao,
 ){
-    fun getUser(): LiveData<List<StoryEntity>> {
-        return storiesDao.getUser()
+    fun getStories(): LiveData<List<StoryEntity>> {
+        return storiesDao.getStories()
     }
 
-    suspend fun insertStory(listStory: StoryEntity) {
+    suspend fun insertStory(listStoryItem: ListStoryItem) {
+
+        val listStory = StoryEntity(
+            listStoryItem.id,
+            listStoryItem.photoUrl,
+            listStoryItem.name,
+            listStoryItem.description,
+            listStoryItem.lon,
+            listStoryItem.lat
+        )
+
         storiesDao.insertStories(listStory)
     }
 
