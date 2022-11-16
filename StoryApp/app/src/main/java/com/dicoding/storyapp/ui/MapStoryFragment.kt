@@ -2,6 +2,7 @@ package com.dicoding.storyapp.ui
 
 import android.content.res.Resources
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,19 +17,17 @@ import com.dicoding.storyapp.databinding.FragmentMapStoryBinding
 import com.dicoding.storyapp.models.DbViewModel
 import com.dicoding.storyapp.models.MapsViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
-import android.os.Handler
 
 class MapStoryFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentMapStoryBinding
     private lateinit var gMap: GoogleMap
-    private val boundsBuilder = LatLngBounds.Builder()
 
     private val mapsViewModel: MapsViewModel by viewModels { ViewModelFactory.getInstance(requireActivity()) }
     private val dbViewModel: DbViewModel by viewModels { ViewModelFactory.getInstance(requireActivity()) }
@@ -67,6 +66,9 @@ class MapStoryFragment : Fragment(), OnMapReadyCallback {
                 gMap.addMarker(MarkerOptions().position(latLng).title(story.username).snippet(story.desc))
             }
         }
+
+        val indoLatLng = LatLng(-2.4833826, 117.8902853)
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(indoLatLng, 3.5f))
     }
 
     private fun getStoryWithLocation(token: String) {

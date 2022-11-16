@@ -61,7 +61,12 @@ class StoryRepository private constructor(
 
     fun getStoryPaging(token: String): LiveData<PagingData<ListStoryItem>> {
         return Pager(
-            config = PagingConfig(pageSize = 5),
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false,
+                prefetchDistance = 5,
+                initialLoadSize = 10
+            ),
             pagingSourceFactory = { StoryPagingSource(apiService, token) }
         ).liveData
     }

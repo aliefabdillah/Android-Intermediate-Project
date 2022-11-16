@@ -70,6 +70,8 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             }
         )
 
+        binding.rvStory.setHasFixedSize(true)
+
         viewLifecycleOwner.lifecycleScope.launch {
             listStoryViewModel.getStoryPaging(token).observe(viewLifecycleOwner){
                 adapter.submitData(lifecycle, it)
