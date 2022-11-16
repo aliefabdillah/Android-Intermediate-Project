@@ -3,7 +3,7 @@ package com.dicoding.storyapp.models
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.dicoding.storyapp.data.Result
-import com.dicoding.storyapp.data.UserRepository
+import com.dicoding.storyapp.data.repository.UserRepository
 import com.dicoding.storyapp.data.api.LoginResult
 import com.dicoding.storyapp.utils.DataDummy
 import com.dicoding.storyapp.utils.EventHandlerToast

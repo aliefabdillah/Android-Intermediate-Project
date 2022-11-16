@@ -1,4 +1,4 @@
-package com.dicoding.storyapp.data
+package com.dicoding.storyapp.data.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,6 +7,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import com.dicoding.storyapp.data.Result
+import com.dicoding.storyapp.data.StoryPagingSource
 import com.dicoding.storyapp.data.api.*
 import com.dicoding.storyapp.utils.EventHandlerToast
 import okhttp3.MultipartBody
@@ -32,12 +34,12 @@ class StoryRepository private constructor(
                 response: Response<StoriesResponse>
             ) {
                 if (response.isSuccessful){
-                    val response = response.body()
-                    if (response != null && !response.error){
-                        getListResult.value = Result.Success(response.listStory)
+                    val responseData = response.body()
+                    if (responseData != null && !responseData.error){
+                        getListResult.value = Result.Success(responseData.listStory)
                     }else{
-                        getListResult.value = Result.Error(EventHandlerToast(response!!.message))
-                        Log.e(TAG, "error in response Method: ${response.message}")
+                        getListResult.value = Result.Error(EventHandlerToast(responseData!!.message))
+                        Log.e(TAG, "error in response Method: ${responseData.message}")
                     }
                 }else{
                     val jsonObject = JSONObject(response.errorBody()!!.string())
@@ -74,12 +76,12 @@ class StoryRepository private constructor(
                 response: Response<DetailStoriesResponse>
             ) {
                 if (response.isSuccessful){
-                    val response = response.body()
-                    if (response != null && !response.error){
-                        getDetailResult.value = Result.Success(response.story)
+                    val responseData = response.body()
+                    if (responseData != null && !responseData.error){
+                        getDetailResult.value = Result.Success(responseData.story)
                     }else{
-                        getDetailResult.value = Result.Error(EventHandlerToast(response!!.message))
-                        Log.e(TAG, "error in response: ${response.message}")
+                        getDetailResult.value = Result.Error(EventHandlerToast(responseData!!.message))
+                        Log.e(TAG, "error in response: ${responseData.message}")
                     }
                 }else{
                     val jsonObject = JSONObject(response.errorBody()!!.string())
@@ -114,12 +116,12 @@ class StoryRepository private constructor(
                 response: Response<CallbackResponse>
             ) {
                 if (response.isSuccessful){
-                    val response = response.body()
-                    if (response != null && !response.error){
-                        uploadResult.value = Result.Success(response)
+                    val responseData = response.body()
+                    if (responseData != null && !responseData.error){
+                        uploadResult.value = Result.Success(responseData)
                     }else{
-                        uploadResult.value = Result.Error(EventHandlerToast(response!!.message))
-                        Log.e(TAG, "error in response: ${response.message}")
+                        uploadResult.value = Result.Error(EventHandlerToast(responseData!!.message))
+                        Log.e(TAG, "error in response: ${responseData.message}")
                     }
                 }else{
                     val jsonObject = JSONObject(response.errorBody()!!.string())

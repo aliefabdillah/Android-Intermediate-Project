@@ -2,7 +2,7 @@ package com.dicoding.storyapp.models
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dicoding.storyapp.data.DataRepository
+import com.dicoding.storyapp.data.repository.DataRepository
 import com.dicoding.storyapp.data.api.ListStoryItem
 import kotlinx.coroutines.launch
 

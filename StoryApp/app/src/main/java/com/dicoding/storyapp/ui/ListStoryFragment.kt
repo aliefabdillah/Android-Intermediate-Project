@@ -79,9 +79,11 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         adapter.addLoadStateListener { loadState ->
             when(loadState.source.refresh){
                 is LoadState.Loading -> {
+                    binding.erroAlert.alertConnection.isVisible = false
                     binding.loadingIcon.visibility = View.VISIBLE
                 }
                 is LoadState.NotLoading -> {
+                    binding.erroAlert.alertConnection.isVisible = false
                     binding.loadingIcon.visibility = View.GONE
                     if (loadState.append.endOfPaginationReached && adapter.itemCount < 1){
                         binding.tvEmptyListStory.isVisible = true
@@ -104,68 +106,19 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     }
                 }
                 is LoadState.Error -> {
-                    Toast.makeText(requireActivity(), getString(R.string.no_internet_connetion), Toast.LENGTH_SHORT).show()
+                    Handler().postDelayed({
+                        binding.loadingIcon.visibility = View.GONE
+                        binding.erroAlert.alertConnection.isVisible = true
+                        Toast.makeText(requireActivity(), getString(R.string.no_internet_connetion), Toast.LENGTH_SHORT).show()
+                    }, TIMEOUT_TIME)
                 }
             }
         }
     }
 
-    /*private fun getStoryCallback(token: String) {
-        listStoryViewModel.getListStories(token).observe(viewLifecycleOwner){ result ->
-            if (result != null){
-                when(result){
-                    is Result.Loading -> binding.loadingIcon.visibility = View.VISIBLE
-                    is Result.Success -> {
-                        if (result.data.isEmpty()){
-                            Toast.makeText(requireActivity(), getString(R.string.list_story_is_empty), Toast.LENGTH_LONG).show()
-                        }else{
-                            binding.loadingIcon.visibility = View.GONE
-                            result.data.forEach {
-                                dbViewModel.saveStoryToDb(it)
-                            }
-                        }
-                    }
-                    is Result.Error -> {
-                        binding.loadingIcon.visibility = View.GONE
-                        result.error.getContentIfNotHandled()?.let { toastText ->
-                            Toast.makeText(requireActivity(), toastText, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            }
-        }
-    }*/
-
-    /*private fun showResult(listStories: List<StoryEntity>) {
-        val layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvStory.layoutManager = layoutManager
-
-        binding.rvStory.setHasFixedSize(true)
-
-        val adapter = ListStoryAdapter(listStories)
-        if (adapter.itemCount == 0){
-            binding.tvEmptyListStory.alpha = 1f
-        }else{
-            binding.tvEmptyListStory.alpha = 0f
-            binding.rvStory.adapter = adapter
-            adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback{
-                override fun onItemClicked(data: StoryEntity) {
-                    val iToDetail = Intent(requireActivity(), DetailStoryActivity::class.java)
-                    iToDetail.putExtra("ID", data.id)
-                    iToDetail.putExtra("TOKEN", token)
-                    val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity(),
-                        Pair(itemBinding.imgItem, "storyImage"),
-                        Pair(itemBinding.tvUsername, "username")
-                    )
-                    startActivity(iToDetail, options.toBundle())
-                }
-            })
-        }
-
-    }*/
-
     companion object{
         var TOKEN = ""
         const val REFRESH_TIME = 2000L
+        const val TIMEOUT_TIME = 7000L
     }
 }

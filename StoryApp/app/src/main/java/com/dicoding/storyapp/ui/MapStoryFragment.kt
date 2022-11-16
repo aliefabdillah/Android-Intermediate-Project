@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import android.os.Handler
 
 class MapStoryFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentMapStoryBinding
@@ -84,10 +85,12 @@ class MapStoryFragment : Fragment(), OnMapReadyCallback {
                         }
                     }
                     is Result.Error -> {
-                        binding.loadingIcon.visibility = View.GONE
-                        result.error.getContentIfNotHandled()?.let { toastText ->
-                            Toast.makeText(requireActivity(), toastText, Toast.LENGTH_SHORT).show()
-                        }
+                        Handler().postDelayed({
+                            binding.loadingIcon.visibility = View.GONE
+                            result.error.getContentIfNotHandled()?.let { toastText ->
+                                Toast.makeText(requireActivity(), toastText, Toast.LENGTH_SHORT).show()
+                            }
+                        }, TIME_OUT)
                     }
                 }
             }
@@ -120,5 +123,6 @@ class MapStoryFragment : Fragment(), OnMapReadyCallback {
     companion object{
         const val TOKEN = ""
         const val TAG =  "MapsStoryFragment"
+        const val TIME_OUT = 5000L
     }
 }

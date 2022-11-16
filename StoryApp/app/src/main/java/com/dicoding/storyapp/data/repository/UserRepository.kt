@@ -1,8 +1,9 @@
-package com.dicoding.storyapp.data
+package com.dicoding.storyapp.data.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.data.api.ApiService
 import com.dicoding.storyapp.data.api.CallbackResponse
 import com.dicoding.storyapp.data.api.LoginResponse
@@ -29,17 +30,17 @@ class UserRepository private constructor(
         client.enqueue(object : retrofit2.Callback<LoginResponse>{
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful){
-                    val response = response.body()!!
-                    if (!response.error){
+                    val responseData = response.body()!!
+                    if (!responseData.error){
                         val loginResult = LoginResult(
-                           response.loginResult.name,
-                           response.loginResult.userId,
-                           response.loginResult.token
+                           responseData.loginResult.name,
+                           responseData.loginResult.userId,
+                           responseData.loginResult.token
                         )
                         signInResult.value = Result.Success(loginResult)
                     }else{
-                        signInResult.value = Result.Error(EventHandlerToast(response.message))
-                        Log.e(TAG, "error in OnResponse Method: ${response.message}")
+                        signInResult.value = Result.Error(EventHandlerToast(responseData.message))
+                        Log.e(TAG, "error in OnResponse Method: ${responseData.message}")
                     }
                 }else{
                     val jsonObject = JSONObject(response.errorBody()!!.string())
@@ -66,12 +67,12 @@ class UserRepository private constructor(
         client.enqueue(object : retrofit2.Callback<CallbackResponse>{
             override fun onResponse(call: Call<CallbackResponse>, response: Response<CallbackResponse>) {
                 if (response.isSuccessful){
-                    val response = response.body()!!
-                    if (!response.error){
-                        signUpResult.value = Result.Success(response)
+                    val responseData = response.body()!!
+                    if (!responseData.error){
+                        signUpResult.value = Result.Success(responseData)
                     }else{
-                        signUpResult.value = Result.Error(EventHandlerToast(response.message))
-                        Log.e(TAG, "error in onResponse Method: ${response.message}")
+                        signUpResult.value = Result.Error(EventHandlerToast(responseData.message))
+                        Log.e(TAG, "error in onResponse Method: ${responseData.message}")
                     }
                 }else{
                     val jsonObject = JSONObject(response.errorBody()!!.string())

@@ -1,4 +1,4 @@
-package com.dicoding.storyapp.data
+package com.dicoding.storyapp.data.repository
 
 import androidx.lifecycle.LiveData
 import com.dicoding.storyapp.data.api.ListStoryItem

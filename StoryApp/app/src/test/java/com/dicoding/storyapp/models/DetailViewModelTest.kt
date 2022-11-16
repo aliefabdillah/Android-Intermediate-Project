@@ -2,7 +2,7 @@ package com.dicoding.storyapp.models
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.dicoding.storyapp.data.StoryRepository
+import com.dicoding.storyapp.data.repository.StoryRepository
 import com.dicoding.storyapp.utils.MainDispatcherRule
 import com.dicoding.storyapp.data.Result
 import com.dicoding.storyapp.data.api.ListStoryItem

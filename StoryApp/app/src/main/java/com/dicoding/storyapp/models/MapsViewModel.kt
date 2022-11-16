@@ -1,7 +1,7 @@
 package com.dicoding.storyapp.models
 
 import androidx.lifecycle.ViewModel
-import com.dicoding.storyapp.data.StoryRepository
+import com.dicoding.storyapp.data.repository.StoryRepository
 
 class MapsViewModel(private val storyRepo: StoryRepository): ViewModel() {
 

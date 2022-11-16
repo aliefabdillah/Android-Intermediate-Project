@@ -6,9 +6,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dicoding.storyapp.data.DataRepository
-import com.dicoding.storyapp.data.StoryRepository
-import com.dicoding.storyapp.data.UserRepository
+import com.dicoding.storyapp.data.repository.DataRepository
+import com.dicoding.storyapp.data.repository.StoryRepository
+import com.dicoding.storyapp.data.repository.UserRepository
 import com.dicoding.storyapp.utils.Injection
 
 class ViewModelFactory(

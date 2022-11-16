@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import com.dicoding.storyapp.data.Result
-import com.dicoding.storyapp.data.StoryRepository
-import com.dicoding.storyapp.data.UserRepository
+import com.dicoding.storyapp.data.repository.StoryRepository
+import com.dicoding.storyapp.data.repository.UserRepository
 import com.dicoding.storyapp.data.api.CallbackResponse
 import com.dicoding.storyapp.data.local.UserModel
 import com.dicoding.storyapp.utils.DataDummy

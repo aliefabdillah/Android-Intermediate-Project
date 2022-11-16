@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.dicoding.storyapp.data.Result
-import com.dicoding.storyapp.data.StoryRepository
-import com.dicoding.storyapp.data.UserRepository
+import com.dicoding.storyapp.data.repository.StoryRepository
+import com.dicoding.storyapp.data.repository.UserRepository
 import com.dicoding.storyapp.data.api.CallbackResponse
 import com.dicoding.storyapp.data.local.UserModel
 import okhttp3.MultipartBody

@@ -10,9 +10,8 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.dicoding.storyapp.adapter.PagingStoryAdapter
-import com.dicoding.storyapp.data.StoryPagingSource
-import com.dicoding.storyapp.data.StoryRepository
-import com.dicoding.storyapp.data.UserRepository
+import com.dicoding.storyapp.data.repository.StoryRepository
+import com.dicoding.storyapp.data.repository.UserRepository
 import com.dicoding.storyapp.data.api.ListStoryItem
 import com.dicoding.storyapp.data.local.UserModel
 import com.dicoding.storyapp.utils.DataDummy
