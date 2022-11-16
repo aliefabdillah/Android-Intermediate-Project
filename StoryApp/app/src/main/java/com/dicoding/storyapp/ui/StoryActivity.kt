@@ -35,6 +35,11 @@ class StoryActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItem
 
         setupData()
 
+        val fragment = ListStoryFragment()
+        renderFragment(fragment)
+        fragment.arguments = Bundle().apply { putString(ListStoryFragment.TOKEN, token) }
+
+        binding.bottomNavigationView.selectedItemId = R.id.listView
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this)
 
     }
