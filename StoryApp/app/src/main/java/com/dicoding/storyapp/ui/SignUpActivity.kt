@@ -81,19 +81,5 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
-//        if (error){
-//            signUpViewModel.toastText.observe(this@SignUpActivity){
-//                it.getContentIfNotHandled()?.let { toastText ->
-//                    Toast.makeText(this@SignUpActivity, toastText, Toast.LENGTH_LONG).show()
-//                }
-//            }
-//        }else{
-//            signUpViewModel.toastText.observe(this@SignUpActivity){
-//                it.getContentIfNotHandled()?.let { toastText ->
-//                    Toast.makeText(this@SignUpActivity, toastText, Toast.LENGTH_LONG).show()
-//                }
-//                finish()
-//            }
-//        }
     }
 }

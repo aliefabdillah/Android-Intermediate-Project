@@ -17,14 +17,11 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dicoding.storyapp.R
-import com.dicoding.storyapp.adapter.ListStoryAdapter
 import com.dicoding.storyapp.adapter.LoadingStateAdapter
 import com.dicoding.storyapp.adapter.PagingStoryAdapter
 import com.dicoding.storyapp.data.api.ListStoryItem
-import com.dicoding.storyapp.data.local.StoryEntity
 import com.dicoding.storyapp.databinding.FragmentListStoryBinding
 import com.dicoding.storyapp.databinding.ItemRowStoryBinding
-import com.dicoding.storyapp.models.DbViewModel
 import com.dicoding.storyapp.models.MainViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
 import kotlinx.coroutines.launch

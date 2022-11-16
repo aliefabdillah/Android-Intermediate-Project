@@ -5,25 +5,20 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.dicoding.storyapp.R
-import com.dicoding.storyapp.adapter.SectionPagerAdapter
 import com.dicoding.storyapp.databinding.ActivityListStoryBinding
 import com.dicoding.storyapp.databinding.ItemRowStoryBinding
 import com.dicoding.storyapp.models.DbViewModel
 import com.dicoding.storyapp.models.DbViewModelFactory
 import com.dicoding.storyapp.models.MainViewModel
 import com.dicoding.storyapp.models.ViewModelFactory
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.tabs.TabLayoutMediator
 
-class StoryActivity : AppCompatActivity(), View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
+class StoryActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityListStoryBinding
     private lateinit var itemBinding: ItemRowStoryBinding
 
@@ -40,7 +35,6 @@ class StoryActivity : AppCompatActivity(), View.OnClickListener, BottomNavigatio
 
         setupData()
 
-//        binding.fabAdd.setOnClickListener(this)
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this)
 
     }
@@ -73,11 +67,6 @@ class StoryActivity : AppCompatActivity(), View.OnClickListener, BottomNavigatio
         supportFragmentManager.beginTransaction().replace(R.id.flFragment, fragment).commit()
     }
 
-    override fun onClick(v: View) {
-//        if (v.id == R.id.fab_add){
-//            startActivity(Intent(this@StoryActivity, UploadActivity::class.java))
-//        }
-    }
 
     private fun setupData() {
 
@@ -87,7 +76,6 @@ class StoryActivity : AppCompatActivity(), View.OnClickListener, BottomNavigatio
                 title = getString(R.string.welcome, user.name)
                 dbViewModel.deleteAllData()
                 binding.bottomNavigationView.selectedItemId = R.id.listView
-//                createTabsLayout(user.token)
             }else{
                 startActivity(Intent(this, SignInActivity::class.java))
                 finish()
@@ -95,17 +83,6 @@ class StoryActivity : AppCompatActivity(), View.OnClickListener, BottomNavigatio
         }
     }
 
-    private fun createTabsLayout(token: String){
-//        val sectionPagerAdapter = SectionPagerAdapter(this@StoryActivity)
-//        sectionPagerAdapter.token = token
-//        binding.viewPager.adapter = sectionPagerAdapter
-//
-//        TabLayoutMediator(binding.storyTab, binding.viewPager){ tab, position ->
-//            tab.text = resources.getString(TAB_TITLES[position])
-//        }.attach()
-//
-//        supportActionBar?.elevation = 0f
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater

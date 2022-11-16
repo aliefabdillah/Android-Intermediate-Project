@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.storyapp.data.DataRepository
 import com.dicoding.storyapp.data.api.ListStoryItem
-import com.dicoding.storyapp.data.local.StoryEntity
 import kotlinx.coroutines.launch
 
 class DbViewModel( private val dataRepository: DataRepository): ViewModel() {

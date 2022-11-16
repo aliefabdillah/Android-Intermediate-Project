@@ -47,21 +47,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun setupViewModel() {
-//        loginViewModel = ViewModelProvider(
-//            this,
-//            ViewModelFactory(UserPreference.getInstance(dataStore))
-//        )[LoginViewModel::class.java]
-//
-//        loginViewModel.isLoading.observe(this@SignInActivity){
-//            showLoading(it)
-//        }
-//
-//        loginViewModel.error.observe(this@SignInActivity){ error ->
-//            signInCallback(error)
-//        }
-    }
-
     private fun signInCallback(email: String, password: String){
         loginViewModel.signInUser(email, password).observe(this){ result ->
             if (result != null){
@@ -95,30 +80,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
-/*        if (error){
-            loginViewModel.toastText.observe(this@SignInActivity){
-                it.getContentIfNotHandled()?.let { toastText ->
-                    Toast.makeText(this@SignInActivity, toastText, Toast.LENGTH_SHORT).show()
-                }
-            }
-        }else{
-            loginViewModel.userData.observe(this){ dataLogin ->
-                val username = dataLogin.name
-                val userToken = dataLogin.token
-                loginViewModel.saveUser(UserModel(username, userToken, true))
-                AlertDialog.Builder(this).apply {
-                    setMessage(getString(R.string.successfully_login_message))
-                    setPositiveButton(getString(R.string.next)) { _, _ ->
-                        val intent = Intent(context, ListStoryActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
-                        finish()
-                    }
-                    create()
-                    show()
-                }
-            }
-        }*/
     }
 
     private fun setupAnimation() {
