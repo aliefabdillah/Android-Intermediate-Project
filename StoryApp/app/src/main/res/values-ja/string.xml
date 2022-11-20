@@ -44,4 +44,5 @@
     <string name="location_not_found">場所が見つかりません。もう一度お試しください。</string>
     <string name="no_internet_connetion">インターネット回線なし！</string>
     <string name="try_again">再試行！</string>
+    <string name="input_your_location">場所を入力してください</string>
 </resources>

@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
@@ -56,7 +57,7 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         getStoryPagingCallback(token)
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             binding.swipeRefresh.isRefreshing = false
         }, REFRESH_TIME)
     }
@@ -108,7 +109,7 @@ class ListStoryFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     }
                 }
                 is LoadState.Error -> {
-                    Handler().postDelayed({
+                    Handler(Looper.getMainLooper()).postDelayed({
                         binding.loadingIcon.visibility = View.GONE
                         binding.erroAlert.alertConnection.isVisible = true
                         Toast.makeText(requireActivity(), getString(R.string.no_internet_connetion), Toast.LENGTH_SHORT).show()

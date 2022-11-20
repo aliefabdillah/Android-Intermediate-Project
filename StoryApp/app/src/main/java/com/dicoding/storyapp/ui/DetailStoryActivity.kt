@@ -56,12 +56,14 @@ class DetailStoryActivity : AppCompatActivity() {
 
         title = getString(R.string.story_name, detailStory.name)
 
-        //add data to view
-        Glide.with(this@DetailStoryActivity)
-            .load(detailStory.photoUrl)
-            .into(binding.imageDetailView)
+        binding.apply {
+            //add data to view
+            Glide.with(this@DetailStoryActivity)
+                .load(detailStory.photoUrl)
+                .into(imageDetailView)
 
-        binding.tvUsername.text = detailStory.name
-        binding.tvDescription.text = detailStory.description
+            tvUsername.text = detailStory.name
+            tvDescription.text = detailStory.description
+        }
     }
 }

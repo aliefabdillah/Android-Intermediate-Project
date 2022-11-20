@@ -3,6 +3,7 @@ package com.dicoding.storyapp.ui
 import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -87,7 +88,7 @@ class MapStoryFragment : Fragment(), OnMapReadyCallback {
                         }
                     }
                     is Result.Error -> {
-                        Handler().postDelayed({
+                        Handler(Looper.getMainLooper()).postDelayed({
                             binding.loadingIcon.visibility = View.GONE
                             result.error.getContentIfNotHandled()?.let { toastText ->
                                 Toast.makeText(requireActivity(), toastText, Toast.LENGTH_SHORT).show()
@@ -102,10 +103,12 @@ class MapStoryFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         gMap = googleMap
 
-        gMap.uiSettings.isZoomControlsEnabled = true
-        gMap.uiSettings.isIndoorLevelPickerEnabled = true
-        gMap.uiSettings.isCompassEnabled = true
-        gMap.uiSettings.isMapToolbarEnabled = true
+        gMap.uiSettings.apply {
+            isZoomControlsEnabled = true
+            isIndoorLevelPickerEnabled = true
+            isCompassEnabled = true
+            isMapToolbarEnabled = true
+        }
 
         setMapStyle()
     }

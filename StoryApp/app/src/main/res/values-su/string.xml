@@ -44,4 +44,5 @@
     <string name="location_not_found">Lokasi teu kapanggih. Cobian deui</string>
     <string name="no_internet_connetion">Teu aya Konéksi Internét!</string>
     <string name="try_again">Cobian deui!</string>
+    <string name="input_your_location">Absukeun posisi anjeun</string>
 </resources>

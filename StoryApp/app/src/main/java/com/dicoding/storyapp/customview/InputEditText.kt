@@ -96,7 +96,6 @@ class InputEditText : AppCompatEditText, View.OnTouchListener {
                     //ketika tombol ditekan makan tombol clear akan tetap tampil
                     MotionEvent.ACTION_DOWN -> {
                         endButton = ContextCompat.getDrawable(context, R.drawable.ic_clear) as Drawable
-//                        startIcon = ContextCompat.getDrawable(context, R.drawable.state_icon_email) as Drawable
                         showClearButton()
                         return true
                     }

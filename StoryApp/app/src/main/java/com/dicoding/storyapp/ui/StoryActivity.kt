@@ -40,8 +40,7 @@ class StoryActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItem
         fragment.arguments = Bundle().apply { putString(ListStoryFragment.TOKEN, token) }
 
         binding.bottomNavigationView.selectedItemId = R.id.listView
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener(this)
-
+        binding.bottomNavigationView.setOnItemSelectedListener(this)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
